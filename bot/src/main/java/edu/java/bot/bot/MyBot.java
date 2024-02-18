@@ -2,7 +2,6 @@ package edu.java.bot.bot;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
-import com.pengrad.telegrambot.model.BotCommand;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.BaseRequest;
 import com.pengrad.telegrambot.request.SendMessage;
@@ -15,7 +14,6 @@ import edu.java.bot.command.TrackCommand;
 import edu.java.bot.command.UntrackCommand;
 import edu.java.bot.interfaceForProject.Bot;
 import edu.java.bot.processor.UserMessageProcessorImpl;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,17 +26,16 @@ public class MyBot implements Bot {
     private final TelegramBot bot;
     private final UserMessageProcessorImpl messageProcessor;
 
+
     @Autowired
     public MyBot(@Value("${app.telegram-token}") String telegramToken, UserMessageProcessorImpl messageProcessor) {
         this.bot = new TelegramBot(telegramToken);
         this.messageProcessor = messageProcessor;
-        List<BotCommand> listOfCommands = new ArrayList<>();
-        listOfCommands.add(new StartCommand().toApiCommand());
-        listOfCommands.add(new HelpCommand().toApiCommand());
-        listOfCommands.add(new ListCommand().toApiCommand());
-        listOfCommands.add(new TrackCommand().toApiCommand());
-        listOfCommands.add(new UntrackCommand().toApiCommand());
-        this.execute(new SetMyCommands(listOfCommands.toArray(new BotCommand[0])));
+        this.bot.execute(new SetMyCommands(new StartCommand().toApiCommand(),
+            new HelpCommand().toApiCommand(),
+            new ListCommand().toApiCommand(),
+            new TrackCommand().toApiCommand(),
+            new UntrackCommand().toApiCommand()));
 
     }
 

@@ -5,16 +5,15 @@ import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.interfaceForProject.Command;
 import edu.java.bot.interfaceForProject.UserMessageProcessor;
 import java.util.List;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
-@Log4j2
 @Component
 public class UserMessageProcessorImpl implements UserMessageProcessor {
     private final List<Command> commandList;
 
     public UserMessageProcessorImpl(List<Command> commandList) {
         this.commandList = commandList;
+
     }
 
     @Override
@@ -26,7 +25,6 @@ public class UserMessageProcessorImpl implements UserMessageProcessor {
     public SendMessage process(Update update) {
         // Проверяем, есть ли текстовое сообщение в обновлении
         if (update.message() == null || update.message().text() == null) {
-            log.warn("Received unsupported message format: {}", update);
             return new SendMessage(update.message().chat().id(), "Unsupported message format");
         }
 
@@ -38,7 +36,6 @@ public class UserMessageProcessorImpl implements UserMessageProcessor {
         }
 
         // Если ни одна из команд не подходит, возвращаем сообщение о том, что команда неизвестна
-        log.warn("Unknown command received: {}", update.message().text());
         return new SendMessage(update.message().chat().id(), "Unknown command");
     }
 }
