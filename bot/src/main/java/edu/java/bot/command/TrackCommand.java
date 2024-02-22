@@ -23,4 +23,9 @@ public class TrackCommand implements Command {
         return new SendMessage(update.message().chat().id(), "Отслеживание ссылки начато!");
     }
 
+    @Override
+    public boolean supports(Update update) {
+        return update.message() != null && update.message().text() != null && update.message().text().equals(command());
+    }
+
 }

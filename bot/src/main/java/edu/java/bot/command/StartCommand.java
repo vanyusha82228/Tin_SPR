@@ -3,10 +3,13 @@ package edu.java.bot.command;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.interfaceForProject.Command;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.stereotype.Component;
 
 @Component
 public class StartCommand implements Command {
+    private final Map<Long, String> users = new HashMap<>();
 
     @Override
     public String command() {
@@ -20,7 +23,22 @@ public class StartCommand implements Command {
 
     @Override
     public SendMessage handle(Update update) {
-        // Обработка команды /start
-        return new SendMessage(update.message().chat().id(), "Вы зарегистрированы!");
+        Long userId = update.message().from().id();
+        String userName = update.message().from().username();
+        if (users.containsKey(userId)) {
+            return new SendMessage(update.message().chat().id(), "Вы зарегистрированы!");
+        } else {
+            users.put(userId, userName);
+            return new SendMessage(update.message().chat().id(), "Вы успешно зарегистрированы!");
+        }
+    }
+
+    @Override
+    public boolean supports(Update update) {
+        return update.message() != null && update.message().text() != null && update.message().text().equals(command());
+    }
+
+    public Map<Long, String> getUsers() {
+        return users;
     }
 }

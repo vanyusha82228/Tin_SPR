@@ -11,9 +11,7 @@ public interface Command {
 
     SendMessage handle(Update update);
 
-    default boolean supports(Update update) {
-        return update.message() != null && update.message().text() != null;
-    }
+    boolean supports(Update update);
 
     default BotCommand toApiCommand() {
         return new BotCommand(command(), description());

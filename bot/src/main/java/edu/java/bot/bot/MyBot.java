@@ -2,16 +2,13 @@ package edu.java.bot.bot;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
+import com.pengrad.telegrambot.model.BotCommand;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SetMyCommands;
-import edu.java.bot.command.HelpCommand;
-import edu.java.bot.command.ListCommand;
-import edu.java.bot.command.StartCommand;
-import edu.java.bot.command.TrackCommand;
-import edu.java.bot.command.UntrackCommand;
 import edu.java.bot.configuration.ApplicationConfig;
 import edu.java.bot.interfaceForProject.Bot;
+import edu.java.bot.interfaceForProject.Command;
 import edu.java.bot.interfaceForProject.UserMessageProcessor;
 import jakarta.annotation.PostConstruct;
 import java.util.List;
@@ -32,11 +29,11 @@ public class MyBot implements Bot {
         this.telegramToken = telegramToken;
         this.bot = new TelegramBot(telegramToken.telegramToken());
         this.messageProcessor = messageProcessor;
-        this.bot.execute(new SetMyCommands(new StartCommand().toApiCommand(),
-            new HelpCommand().toApiCommand(),
-            new ListCommand().toApiCommand(),
-            new TrackCommand().toApiCommand(),
-            new UntrackCommand().toApiCommand()));
+        BotCommand[] botCommands = messageProcessor.commands().stream()
+            .map(Command::toApiCommand)
+            .toArray(BotCommand[]::new);
+        this.bot.execute(new SetMyCommands(botCommands));
+
 
     }
 
