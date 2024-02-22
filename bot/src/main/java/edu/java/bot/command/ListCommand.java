@@ -7,6 +7,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ListCommand implements Command {
+    private final TrackCommand trackCommand;
+
+    public ListCommand(TrackCommand trackCommand) {
+        this.trackCommand = trackCommand;
+    }
 
     @Override
     public String command() {
@@ -20,7 +25,12 @@ public class ListCommand implements Command {
 
     @Override
     public SendMessage handle(Update update) {
-        return new SendMessage(update.message().chat().id(), "Список отслеживаемых ссылок: ...");
+        StringBuilder builder = new StringBuilder();
+        builder.append("Список отслеживаемых ссылок:\n");
+        for (String link : trackCommand.getTrackedLinks()) {
+            builder.append(link).append("\n");
+        }
+        return new SendMessage(update.message().chat().id(), builder.toString());
     }
 
     @Override
