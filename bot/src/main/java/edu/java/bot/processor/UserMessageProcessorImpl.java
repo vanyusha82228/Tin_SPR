@@ -25,7 +25,7 @@ public class UserMessageProcessorImpl implements UserMessageProcessor {
     public SendMessage process(Update update) {
         // Проверяем, есть ли текстовое сообщение в обновлении
         if (update.message() == null || update.message().text() == null) {
-            return new SendMessage(update.message().chat().id(), "Unsupported message format");
+            return sendMessageInChat(update, "Unsupported message format");
         }
 
         // Ищем подходящую команду для обработки сообщения пользователя
@@ -36,6 +36,10 @@ public class UserMessageProcessorImpl implements UserMessageProcessor {
         }
 
         // Если ни одна из команд не подходит, возвращаем сообщение о том, что команда неизвестна
-        return new SendMessage(update.message().chat().id(), "Unknown command");
+        return sendMessageInChat(update, "Unknown command");
+    }
+
+    public static SendMessage sendMessageInChat(Update update, String text) {
+        return new SendMessage(update.message().chat().id(), text);
     }
 }

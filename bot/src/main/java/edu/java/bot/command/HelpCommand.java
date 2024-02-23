@@ -5,6 +5,7 @@ import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.interfaceForProject.Command;
 import java.util.List;
 import org.springframework.stereotype.Component;
+import static edu.java.bot.processor.UserMessageProcessorImpl.sendMessageInChat;
 
 @Component
 public class HelpCommand implements Command {
@@ -33,7 +34,7 @@ public class HelpCommand implements Command {
             builder.append(command.command()).append(" - ").append(command.description()).append("\n");
         }
 
-        return new SendMessage(update.message().chat().id(), builder.toString());
+        return sendMessageInChat(update, builder.toString());
     }
 
     @Override

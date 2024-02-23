@@ -6,6 +6,7 @@ import edu.java.bot.interfaceForProject.Command;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Component;
+import static edu.java.bot.processor.UserMessageProcessorImpl.sendMessageInChat;
 
 @Component
 public class TrackCommand implements Command {
@@ -24,20 +25,21 @@ public class TrackCommand implements Command {
 
     @Override
     public SendMessage handle(Update update) {
-        long chatId = update.message().chat().id();
 
         if (waitingForLink) {
             String link = update.message().text();
+
             if (!trackedLinks.contains(link)) {
                 trackedLinks.add(link);
                 waitingForLink = false;
-                return new SendMessage(chatId, "Ссылка " + link + " успешно отслеживается.");
+                String mesDeteils = "Ссылка " + link + " успешно отслеживается.";
+                return sendMessageInChat(update, mesDeteils);
             } else {
-                return new SendMessage(chatId, "Ссылка уже отслеживается.");
+                return sendMessageInChat(update, "Ссылка уже отслеживается.");
             }
         } else {
             waitingForLink = true;
-            return new SendMessage(chatId, "Введите ссылку для отслеживания.");
+            return sendMessageInChat(update, "Введите ссылку для отслеживания.");
         }
 
     }

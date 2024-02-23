@@ -6,6 +6,7 @@ import edu.java.bot.interfaceForProject.Command;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.stereotype.Component;
+import static edu.java.bot.processor.UserMessageProcessorImpl.sendMessageInChat;
 
 @Component
 public class StartCommand implements Command {
@@ -26,10 +27,10 @@ public class StartCommand implements Command {
         Long userId = update.message().from().id();
         String userName = update.message().from().username();
         if (users.containsKey(userId)) {
-            return new SendMessage(update.message().chat().id(), "Вы зарегистрированы!");
+            return sendMessageInChat(update, "Вы зарегистрированы!");
         } else {
             users.put(userId, userName);
-            return new SendMessage(update.message().chat().id(), "Вы успешно зарегистрированы!");
+            return sendMessageInChat(update, "Вы успешно зарегистрированы!");
         }
     }
 

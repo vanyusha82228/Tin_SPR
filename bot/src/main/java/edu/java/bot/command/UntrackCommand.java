@@ -4,6 +4,7 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.interfaceForProject.Command;
 import org.springframework.stereotype.Component;
+import static edu.java.bot.processor.UserMessageProcessorImpl.sendMessageInChat;
 
 @Component
 public class UntrackCommand implements Command {
@@ -26,20 +27,21 @@ public class UntrackCommand implements Command {
 
     @Override
     public SendMessage handle(Update update) {
-        long chatId = update.message().chat().id();
         if (waitingForLink) {
             String link = update.message().text();
             if (trackCommand.getTrackedLinks().contains(link)) {
                 trackCommand.getTrackedLinks().remove(link);
+                String mesDeteils = "Ссылка " + link + " успешно удалена.";
                 waitingForLink = false;
-                return new SendMessage(chatId, "Ссылка " + link + " успешно удалена.");
+                return sendMessageInChat(update, mesDeteils);
             } else {
                 waitingForLink = false;
-                return new SendMessage(chatId, link + " не найдена в списке отслеживаемых ссылок.");
+                String mesDeteils = link + " не найдена в списке отслеживаемых ссылок.";
+                return sendMessageInChat(update, mesDeteils);
             }
         } else {
             waitingForLink = true;
-            return new SendMessage(chatId, "Введите ссылку для удаления.");
+            return sendMessageInChat(update, "Введите ссылку для удаления.");
         }
     }
 

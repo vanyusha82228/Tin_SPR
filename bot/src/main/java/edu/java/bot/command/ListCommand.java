@@ -4,6 +4,7 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.interfaceForProject.Command;
 import org.springframework.stereotype.Component;
+import static edu.java.bot.processor.UserMessageProcessorImpl.sendMessageInChat;
 
 @Component
 public class ListCommand implements Command {
@@ -30,7 +31,7 @@ public class ListCommand implements Command {
         for (String link : trackCommand.getTrackedLinks()) {
             builder.append(link).append("\n");
         }
-        return new SendMessage(update.message().chat().id(), builder.toString());
+        return sendMessageInChat(update, builder.toString());
     }
 
     @Override
