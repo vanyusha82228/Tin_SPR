@@ -21,11 +21,11 @@ public class GitHubWebClient implements GitHubClientInterface {
     @Override
     public GitHubRepositoryDTO fetchRepositoryInfo(String owner, String repositoryName) {
         GitHubRepositoryDTO result = webClient.get()
-            .uri("/repos/{owner}/{repo}", owner,repositoryName)
+            .uri("/repos/{owner}/{repo}", owner, repositoryName)
             .retrieve()
             .bodyToMono(GitHubRepositoryDTO.class)
             .block();
-        if(result == null){
+        if (result == null) {
             log.info("Не удалось получить репозиторий");
         }
         return result;
