@@ -5,7 +5,7 @@ import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.interfaceForProject.Command;
 import java.util.List;
 import org.springframework.stereotype.Component;
-import static edu.java.bot.processor.UserMessageProcessorImpl.sendMessageInChat;
+import static edu.java.bot.servicebot.SendMessageInChat.sendMessageInChat;
 
 @Component
 public class HelpCommand implements Command {

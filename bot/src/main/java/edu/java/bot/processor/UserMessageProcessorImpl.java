@@ -6,6 +6,7 @@ import edu.java.bot.interfaceForProject.Command;
 import edu.java.bot.interfaceForProject.UserMessageProcessor;
 import java.util.List;
 import org.springframework.stereotype.Component;
+import static edu.java.bot.servicebot.SendMessageInChat.sendMessageInChat;
 
 @Component
 public class UserMessageProcessorImpl implements UserMessageProcessor {
@@ -39,7 +40,5 @@ public class UserMessageProcessorImpl implements UserMessageProcessor {
         return sendMessageInChat(update, "Unknown command");
     }
 
-    public static SendMessage sendMessageInChat(Update update, String text) {
-        return new SendMessage(update.message().chat().id(), text);
-    }
+
 }

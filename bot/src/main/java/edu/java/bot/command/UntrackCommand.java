@@ -4,7 +4,7 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.interfaceForProject.Command;
 import org.springframework.stereotype.Component;
-import static edu.java.bot.processor.UserMessageProcessorImpl.sendMessageInChat;
+import static edu.java.bot.servicebot.SendMessageInChat.sendMessageInChat;
 
 @Component
 public class UntrackCommand implements Command {

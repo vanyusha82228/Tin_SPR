@@ -6,7 +6,7 @@ import edu.java.bot.interfaceForProject.Command;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.stereotype.Component;
-import static edu.java.bot.processor.UserMessageProcessorImpl.sendMessageInChat;
+import static edu.java.bot.servicebot.SendMessageInChat.sendMessageInChat;
 
 @Component
 public class StartCommand implements Command {
