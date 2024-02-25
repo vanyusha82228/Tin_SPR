@@ -31,5 +31,4 @@ public class GitHubWebClient implements GitHubClientInterface {
         return result;
     }
 
-
 }

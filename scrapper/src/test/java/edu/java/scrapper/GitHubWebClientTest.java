@@ -9,6 +9,7 @@ import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.reactive.function.client.WebClient;
 import java.time.Duration;
 import java.time.OffsetDateTime;
@@ -21,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(WireMockExtension.class)
 public class GitHubWebClientTest {
-    @Mock
+    @Autowired
     private ApplicationConfig applicationConfig;
 
     @Rule
@@ -42,7 +43,7 @@ public class GitHubWebClientTest {
         WebClient webClient = webClientBuilder.baseUrl("http://localhost:" + wireMockRule.port()).build();
 
         // Создание экземпляра ApplicationConfig
-        ApplicationConfig applicationConfig = new ApplicationConfig(new ApplicationConfig.Scheduler(true, Duration.ofMinutes(10), Duration.ofMinutes(5)), "githubBaseUrl", "stackOverflowBaseUrl");
+//        ApplicationConfig applicationConfig = new ApplicationConfig(new ApplicationConfig.Scheduler(true, Duration.ofMinutes(10), Duration.ofMinutes(5)), "githubBaseUrl", "stackOverflowBaseUrl");
 
         // Создание экземпляра GitHubWebClient с WebClient и тестируем метод
         GitHubWebClient gitHubWebClient = new GitHubWebClient(webClientBuilder, applicationConfig);
