@@ -1,5 +1,7 @@
 package edu.java.interfaceForClient;
 
+import edu.java.dto.GitHubRepositoryDTO;
+
 public interface GitHubClientInterface {
-    String fetchRepositoryInfo(String owner, String repositoryName);
+    GitHubRepositoryDTO fetchRepositoryInfo(String owner, String repositoryName);
 }
