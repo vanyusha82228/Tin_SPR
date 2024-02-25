@@ -3,16 +3,17 @@ package edu.java.bot.command;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.interfaceForProject.Command;
+import edu.java.bot.user.UserRepository;
 import org.springframework.stereotype.Component;
 import static edu.java.bot.servicebot.SendMessageInChat.sendMessageInChat;
 
 @Component
 public class UntrackCommand implements Command {
-    private final TrackCommand trackCommand;
+    private final UserRepository userRepository;
     private boolean waitingForLink = false;
 
-    public UntrackCommand(TrackCommand trackCommand) {
-        this.trackCommand = trackCommand;
+    public UntrackCommand(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -29,8 +30,8 @@ public class UntrackCommand implements Command {
     public SendMessage handle(Update update) {
         if (waitingForLink) {
             String link = update.message().text();
-            if (trackCommand.getTrackedLinks().contains(link)) {
-                trackCommand.getTrackedLinks().remove(link);
+            if (userRepository.getTrackedLinks().contains(link)) {
+                userRepository.getTrackedLinks().remove(link);
                 String mesDeteils = "Ссылка " + link + " успешно удалена.";
                 waitingForLink = false;
                 return sendMessageInChat(update, mesDeteils);

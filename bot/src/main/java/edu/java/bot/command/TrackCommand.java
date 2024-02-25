@@ -3,15 +3,18 @@ package edu.java.bot.command;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.interfaceForProject.Command;
-import java.util.ArrayList;
-import java.util.List;
+import edu.java.bot.user.UserRepository;
 import org.springframework.stereotype.Component;
 import static edu.java.bot.servicebot.SendMessageInChat.sendMessageInChat;
 
 @Component
 public class TrackCommand implements Command {
-    private final List<String> trackedLinks = new ArrayList<>();
+    private final UserRepository userRepository;
     private boolean waitingForLink = false;
+
+    public TrackCommand(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public String command() {
@@ -29,8 +32,8 @@ public class TrackCommand implements Command {
         if (waitingForLink) {
             String link = update.message().text();
 
-            if (!trackedLinks.contains(link)) {
-                trackedLinks.add(link);
+            if (!userRepository.getTrackedLinks().contains(link)) {
+                userRepository.getTrackedLinks().add(link);
                 waitingForLink = false;
                 String mesDeteils = "Ссылка " + link + " успешно отслеживается.";
                 return sendMessageInChat(update, mesDeteils);
@@ -50,7 +53,4 @@ public class TrackCommand implements Command {
             && update.message().text().startsWith(command()));
     }
 
-    public List<String> getTrackedLinks() {
-        return trackedLinks;
-    }
 }

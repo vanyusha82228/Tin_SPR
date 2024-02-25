@@ -3,15 +3,16 @@ package edu.java.bot.command;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.interfaceForProject.Command;
+import edu.java.bot.user.UserRepository;
 import org.springframework.stereotype.Component;
 import static edu.java.bot.servicebot.SendMessageInChat.sendMessageInChat;
 
 @Component
 public class ListCommand implements Command {
-    private final TrackCommand trackCommand;
+    private final UserRepository userRepository;
 
-    public ListCommand(TrackCommand trackCommand) {
-        this.trackCommand = trackCommand;
+    public ListCommand(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -28,7 +29,7 @@ public class ListCommand implements Command {
     public SendMessage handle(Update update) {
         StringBuilder builder = new StringBuilder();
         builder.append("Список отслеживаемых ссылок:\n");
-        for (String link : trackCommand.getTrackedLinks()) {
+        for (String link : userRepository.getTrackedLinks()) {
             builder.append(link).append("\n");
         }
         return sendMessageInChat(update, builder.toString());
