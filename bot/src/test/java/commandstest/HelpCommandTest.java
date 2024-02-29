@@ -53,6 +53,9 @@ public class HelpCommandTest {
         when(mockMessage.chat()).thenReturn(mockChat);
         when(mockChat.id()).thenReturn(12345L);
         when(mockMessage.text()).thenReturn("/help");
+
+
+
     }
 
     @Test
