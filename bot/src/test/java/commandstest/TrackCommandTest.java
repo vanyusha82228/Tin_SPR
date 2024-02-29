@@ -52,8 +52,7 @@ public class TrackCommandTest {
         // Обработка команды /track
         trackCommand.handle(mockUpdate);
 
-        // Проверка, что сообщение о том, что ссылка уже отслеживается, возвращено
-        // и репозиторий не изменен
+
         List<String> trackedLinks = userRepository.getTrackedLinks();
         assertEquals(1, trackedLinks.size());
         assertEquals("https://example.com/link1", trackedLinks.get(0));

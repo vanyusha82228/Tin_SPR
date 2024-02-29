@@ -49,8 +49,6 @@ public class UntrackCommandTest {
         // Обработка команды /untrack
         untrackCommand.handle(mockUpdate);
 
-        // Проверка, что сообщение о том, что ссылка не найдена, возвращено
-        // и репозиторий не изменен
         List<String> trackedLinks = userRepository.getTrackedLinks();
         assertEquals(0, trackedLinks.size());
     }
