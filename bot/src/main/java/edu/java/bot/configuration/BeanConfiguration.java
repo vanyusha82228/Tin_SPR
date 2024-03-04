@@ -15,6 +15,6 @@ public class BeanConfiguration {
 
     @Bean
     public TelegramBot telegramBot(ApplicationConfig applicationConfig) {
-        return new TelegramBot(System.getenv("TOKEN"));
+        return new TelegramBot(applicationConfig.telegramToken());
     }
 }
