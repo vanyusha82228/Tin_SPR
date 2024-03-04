@@ -22,17 +22,7 @@ public class LinkUpdaterScheduler {
 
     @Scheduled(fixedDelayString = "${app.scheduler.interval}")
     public void update() {
-        try {
-            gitHubWebClient.fetchRepositoryInfo("gdfgdf", "dgfdfg");
 
-        } catch (Exception e) {
-            log.error(e); // временная заглушка
-        }
-        try {
-            stackOverflowWebClient.fetchQuestionInfo(ID);
-        } catch (Exception e) {
-            log.error(e);
-        }
         log.info("Обновление ссылок...");
     }
 
