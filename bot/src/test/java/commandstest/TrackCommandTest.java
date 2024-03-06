@@ -46,11 +46,13 @@ public class TrackCommandTest {
         // Mock объекты
         Update mockUpdate = mock(Update.class);
         Message mockMessage = mock(Message.class);
+        User mockUser = mock(User.class);
         Chat mockChat = mock(Chat.class);
 
         // Настройка поведения макетов
         when(mockUpdate.message()).thenReturn(mockMessage);
         when(mockMessage.text()).thenReturn("https://example.com/link1");
+        when(mockMessage.from()).thenReturn(mockUser);
         when(mockMessage.from().id()).thenReturn(12345L);
         when(mockMessage.chat()).thenReturn(mockChat); // мокируем chat
         when(mockChat.id()).thenReturn(12345L); // возвращаем идентификатор чата
