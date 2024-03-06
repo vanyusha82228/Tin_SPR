@@ -19,16 +19,15 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void addUserLink(Long userId, String link) {
-        List<String> links = userLinks.getOrDefault(userId,new ArrayList<>());
-        links.add(link);
-        userLinks.put(userId,links);
+        userLinks.computeIfAbsent(userId, k -> new ArrayList<>()).add(link);
     }
 
     @Override
     public void removeUserLink(Long userId, String link) {
-        List<String> links = userLinks.getOrDefault(userId, new ArrayList<>());
-        links.remove(link);
-        userLinks.put(userId, links);
+        userLinks.computeIfPresent(userId, (k, v) -> {
+            v.remove(link);
+            return v;
+        });
     }
-    
+
 }

@@ -4,9 +4,10 @@ import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import edu.java.bot.command.UntrackCommand;
-import edu.java.bot.user.UserRepository;
+import edu.java.bot.interfaceForProject.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -18,7 +19,7 @@ public class UntrackCommandTest {
 
     @BeforeEach
     public void setUp() {
-        userRepository = new UserRepository();
+        userRepository = mock(UserRepository.class);
         untrackCommand = new UntrackCommand(userRepository);
     }
 
@@ -36,21 +37,26 @@ public class UntrackCommandTest {
     @Test
     public void testHandle_WhenLinkNotFound() {
         // Mock объекты
+        List<String> trackedLinks = new ArrayList<>();
+        trackedLinks.add("https://example.com/link1");
+        when(userRepository.listLinkByUserId(12345L)).thenReturn(trackedLinks);
+
+        // Mock объекты
         Update mockUpdate = mock(Update.class);
         Message mockMessage = mock(Message.class);
         Chat mockChat = mock(Chat.class);
 
         // Настройка поведения макетов
         when(mockUpdate.message()).thenReturn(mockMessage);
-        when(mockMessage.text()).thenReturn("https://example.com/link1");
+        when(mockMessage.text()).thenReturn("https://example.com/link2"); // ссылка, которая не находится в репозитории
         when(mockMessage.chat()).thenReturn(mockChat); // мокируем chat
         when(mockChat.id()).thenReturn(12345L); // возвращаем идентификатор чата
 
         // Обработка команды /untrack
         untrackCommand.handle(mockUpdate);
 
-        List<String> trackedLinks = userRepository.getTrackedLinks();
-        assertEquals(0, trackedLinks.size());
+        // Проверка, что ссылка не была удалена, так как она не была найдена
+        assertEquals(1, trackedLinks.size());
     }
 
 }
