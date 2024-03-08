@@ -17,14 +17,11 @@ public class ClientConfiguration {
         return new GitHubWebClient(webClientBuilder, applicationConfig);
     }
 
-    @Bean public StackOverflowClientInterface stackOverflowClient(
+    @Bean
+    public StackOverflowClientInterface stackOverflowClient(
         WebClient.Builder webClientBuilder, ApplicationConfig applicationConfig
     ) {
         return new StackOverflowWebClient(webClientBuilder, applicationConfig);
-    }
-
-    @Bean public GitHubWebClient gitHubWebClient(WebClient.Builder wedClient, ApplicationConfig applicationConfig) {
-        return new GitHubWebClient(wedClient, applicationConfig);
     }
 
 }
