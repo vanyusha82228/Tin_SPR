@@ -5,7 +5,6 @@ import edu.java.configuration.ApplicationConfig;
 import edu.java.dto.StackOverflowQuestionDTO;
 import edu.java.stackocerflow.StackOverflowWebClient;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,7 +61,6 @@ public class StackOverflowWebClientTest {
         assertEquals(title, questionDTO.getTitle());
         assertTrue(creationDate.isEqual(questionDTO.getCreationDate()));
     }
-
     @AfterAll
     public static void afterAll() {
         wireMockServer.stop();
