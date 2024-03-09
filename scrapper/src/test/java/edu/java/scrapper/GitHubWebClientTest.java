@@ -11,7 +11,7 @@ import java.time.Duration;
 import java.time.OffsetDateTime;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GitHubWebClientTest {
     private static WireMockServer wireMockServer;
@@ -57,7 +57,7 @@ public class GitHubWebClientTest {
         // Проверяем, что DTO заполнен корректно
         Assertions.assertEquals(repositoryName, repositoryDTO.getName());
         Assertions.assertEquals(description, repositoryDTO.getDescription());
-        Assertions.assertEquals(updatedAt, repositoryDTO.getUpdatedAt());
+        assertTrue(updatedAt.isEqual(repositoryDTO.getUpdatedAt()));
     }
 
     @AfterAll

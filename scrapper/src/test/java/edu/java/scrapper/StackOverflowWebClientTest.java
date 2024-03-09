@@ -14,6 +14,8 @@ import java.time.Duration;
 import java.time.OffsetDateTime;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StackOverflowWebClientTest {
     private static WireMockServer wireMockServer;
@@ -56,9 +58,9 @@ public class StackOverflowWebClientTest {
         StackOverflowQuestionDTO questionDTO = stackOverflowWebClient.fetchQuestionInfo(questionId);
 
         // Проверяем, что DTO заполнен корректно
-        Assertions.assertEquals(questionId, questionDTO.getQuestionId());
-        Assertions.assertEquals(title, questionDTO.getTitle());
-        Assertions.assertEquals(creationDate, questionDTO.getCreationDate());
+        assertEquals(questionId, questionDTO.getQuestionId());
+        assertEquals(title, questionDTO.getTitle());
+        assertTrue(creationDate.isEqual(questionDTO.getCreationDate()));
     }
 
     @AfterAll
