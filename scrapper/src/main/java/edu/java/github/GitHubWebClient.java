@@ -15,10 +15,7 @@ public class GitHubWebClient implements GitHubClientInterface {
 
     public GitHubWebClient(WebClient.Builder webClientBuilder, ApplicationConfig applicationConfig) {
         this.baseUrl = applicationConfig.githubBaseUrl();
-<<<<<<< HEAD
-=======
 
->>>>>>> main
         this.webClient = webClientBuilder.baseUrl(baseUrl).build();
     }
 

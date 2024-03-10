@@ -1,11 +1,7 @@
 package edu.java.stackocerflow;
 
 import edu.java.configuration.ApplicationConfig;
-<<<<<<< HEAD
-import edu.java.dto.StackOverflowQuestionDTO;
-=======
 import edu.java.dto.StackOverflowResponseDTO;
->>>>>>> main
 import edu.java.interfaceForClient.StackOverflowClientInterface;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
@@ -23,15 +19,6 @@ public class StackOverflowWebClient implements StackOverflowClientInterface {
     }
 
     @Override
-<<<<<<< HEAD
-    public StackOverflowQuestionDTO fetchQuestionInfo(int questionId) {
-        StackOverflowQuestionDTO result = webClient.get()
-            .uri("/questions/{id}", questionId)
-            .retrieve()
-            .bodyToMono(StackOverflowQuestionDTO.class)
-            .block();
-        if (result == null) {
-=======
     public StackOverflowResponseDTO fetchQuestionInfo(int questionId) {
         StackOverflowResponseDTO result = webClient.get()
             .uri("/questions/{ids}", questionId)
@@ -39,7 +26,6 @@ public class StackOverflowWebClient implements StackOverflowClientInterface {
             .bodyToMono(StackOverflowResponseDTO.class)
             .block();
         if (result == null || result.getItems() == null || result.getItems().isEmpty()) {
->>>>>>> main
             log.info("Не удалось получить вопрос");
         }
         return result;

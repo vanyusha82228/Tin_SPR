@@ -1,14 +1,5 @@
 package edu.java.dto;
 
-<<<<<<< HEAD
-import java.time.OffsetDateTime;
-import lombok.Data;
-
-@Data
-public class StackOverflowQuestionDTO {
-    private int questionId;
-    private String title;
-=======
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
 import lombok.AllArgsConstructor;
@@ -24,6 +15,5 @@ public class StackOverflowQuestionDTO {
     private int questionId;
     private String title;
     @JsonProperty("creation_date")
->>>>>>> main
     private OffsetDateTime creationDate;
 }
