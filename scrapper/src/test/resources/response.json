@@ -1,0 +1,33 @@
+{
+    "items": [
+        {
+            "tags": [
+                "java",
+                "jvm",
+                "runtime"
+            ],
+            "owner": {
+                "account_id": 10709140,
+                "reputation": 352,
+                "user_id": 12616968,
+                "user_type": "registered",
+                "profile_image": "https://www.gravatar.com/avatar/6ba865101df41e4f318a101e5fc62280?s=256&d=identicon&r=PG&f=y&so-version=2",
+                "display_name": "mig001",
+                "link": "https://stackoverflow.com/users/12616968/mig001"
+            },
+            "is_answered": true,
+            "view_count": 39,
+            "answer_count": 1,
+            "score": 2,
+            "last_activity_date": 1709986474,
+            "creation_date": 1709978980,
+            "question_id": 78131948,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/78131948/will-jvm-optimise-this-mathmatical-operation",
+            "title": "Will JVM optimise this mathmatical operation?"
+        }
+    ],
+    "has_more": false,
+    "quota_max": 10000,
+    "quota_remaining": 9982
+}
