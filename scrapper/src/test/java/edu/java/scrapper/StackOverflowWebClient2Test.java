@@ -32,6 +32,7 @@ public class StackOverflowWebClient2Test {
 
     @BeforeEach
     public void setUp() {
+
         wireMockServer.resetAll();
         String baseUrl = wireMockServer.baseUrl();
         ApplicationConfig applicationConfig = new ApplicationConfig(

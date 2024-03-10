@@ -25,6 +25,7 @@ public class GitHubWebClientTest {
 
     @BeforeEach
     public void setUp() {
+
         wireMockServer.resetAll();
         String baseUrl = wireMockServer.baseUrl();
         ApplicationConfig applicationConfig = new ApplicationConfig(
