@@ -3,7 +3,7 @@ package edu.java.scrapper;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import edu.java.configuration.ApplicationConfig;
-import edu.java.dto.GitHubRepositoryDTO;
+import edu.java.dto.clintsDto.GitHubRepositoryDTO;
 import edu.java.github.GitHubWebClient;
 import org.junit.jupiter.api.*;
 import org.springframework.web.reactive.function.client.WebClient;
