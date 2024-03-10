@@ -1,7 +1,7 @@
 package edu.java.interfaceForClient;
 
-import edu.java.dto.StackOverflowQuestionDTO;
+import edu.java.dto.StackOverflowResponseDTO;
 
 public interface StackOverflowClientInterface {
-    StackOverflowQuestionDTO fetchQuestionInfo(int questionId);
+    StackOverflowResponseDTO fetchQuestionInfo(int questionId);
 }

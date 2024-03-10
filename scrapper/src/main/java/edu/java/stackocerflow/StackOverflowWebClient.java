@@ -1,7 +1,7 @@
 package edu.java.stackocerflow;
 
 import edu.java.configuration.ApplicationConfig;
-import edu.java.dto.StackOverflowQuestionDTO;
+import edu.java.dto.StackOverflowResponseDTO;
 import edu.java.interfaceForClient.StackOverflowClientInterface;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
@@ -19,13 +19,13 @@ public class StackOverflowWebClient implements StackOverflowClientInterface {
     }
 
     @Override
-    public StackOverflowQuestionDTO fetchQuestionInfo(int questionId) {
-        StackOverflowQuestionDTO result = webClient.get()
-            .uri("/questions/{id}", questionId)
+    public StackOverflowResponseDTO fetchQuestionInfo(int questionId) {
+        StackOverflowResponseDTO result = webClient.get()
+            .uri("/questions/{ids}", questionId)
             .retrieve()
-            .bodyToMono(StackOverflowQuestionDTO.class)
+            .bodyToMono(StackOverflowResponseDTO.class)
             .block();
-        if (result == null) {
+        if (result == null || result.getItems() == null || result.getItems().isEmpty()) {
             log.info("Не удалось получить вопрос");
         }
         return result;
