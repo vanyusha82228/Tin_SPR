@@ -1,4 +1,4 @@
-package commandstest;
+package edu.java.bot.commandstest;
 
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;

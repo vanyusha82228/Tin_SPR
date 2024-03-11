@@ -1,13 +1,10 @@
-package commandstest;
+package edu.java.bot.commandstest;
 
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.model.User;
-import edu.java.bot.command.TrackCommand;
-
+import edu.java.bot.command.UntrackCommand;
 import edu.java.bot.interfaceForProject.UserRepository;
-import edu.java.bot.user.UserRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
@@ -16,29 +13,30 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class TrackCommandTest {
-    private TrackCommand trackCommand;
+public class UntrackCommandTest {
+    private UntrackCommand untrackCommand;
     private UserRepository userRepository;
 
     @BeforeEach
     public void setUp() {
-        userRepository = mock(UserRepositoryImpl.class);
-        trackCommand = new TrackCommand(userRepository);
+        userRepository = mock(UserRepository.class);
+        untrackCommand = new UntrackCommand(userRepository);
     }
 
     @Test
     public void testCommand(){
-        assertEquals("/track", trackCommand.command());
+        assertEquals("/untrack", untrackCommand.command());
     }
 
     @Test
     public void testDescription() {
-        assertEquals("Начать отслеживание ссылки", trackCommand.description());
+        assertEquals("Прекратить отслеживание ссылки", untrackCommand.description());
     }
 
+
     @Test
-    public void testHandle_WhenLinkAlreadyTracked() {
-        // Подготовка данных в репозитории
+    public void testHandle_WhenLinkNotFound() {
+        // Mock объекты
         List<String> trackedLinks = new ArrayList<>();
         trackedLinks.add("https://example.com/link1");
         when(userRepository.listLinkByUserId(12345L)).thenReturn(trackedLinks);
@@ -46,22 +44,19 @@ public class TrackCommandTest {
         // Mock объекты
         Update mockUpdate = mock(Update.class);
         Message mockMessage = mock(Message.class);
-        User mockUser = mock(User.class);
         Chat mockChat = mock(Chat.class);
 
         // Настройка поведения макетов
         when(mockUpdate.message()).thenReturn(mockMessage);
-        when(mockMessage.text()).thenReturn("https://example.com/link1");
-        when(mockMessage.from()).thenReturn(mockUser);
-        when(mockMessage.from().id()).thenReturn(12345L);
+        when(mockMessage.text()).thenReturn("https://example.com/link2"); // ссылка, которая не находится в репозитории
         when(mockMessage.chat()).thenReturn(mockChat); // мокируем chat
         when(mockChat.id()).thenReturn(12345L); // возвращаем идентификатор чата
 
-        // Обработка команды /track
-        trackCommand.handle(mockUpdate);
+        // Обработка команды /untrack
+        untrackCommand.handle(mockUpdate);
 
-        // Проверка, что ссылка успешно добавлена
+        // Проверка, что ссылка не была удалена, так как она не была найдена
         assertEquals(1, trackedLinks.size());
-        assertEquals("https://example.com/link1", trackedLinks.get(0));
     }
+
 }
