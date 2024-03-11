@@ -1,4 +1,4 @@
-package edu.java.controller;
+package edu.java.scrapper.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.java.controllers.UpdateController;
