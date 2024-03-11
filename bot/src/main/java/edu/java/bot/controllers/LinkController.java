@@ -1,17 +1,37 @@
-//package edu.java.bot.controllers;
-//
-//import edu.java.bot.dto.response.ListLinksResponse;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.RequestHeader;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//@RestController
-//@RequestMapping("/links")
-//public class LinkController {
-//    @GetMapping
-//    public ResponseEntity<ListLinksResponse> getAllLinks(@RequestHeader("Tg-Chat-Id") Long thChatId){
-//        return ResponseEntity.ok("Получить все отслеживаемые ссылки");
-//    }
-//}
+    package edu.java.bot.controllers;
+
+    import edu.java.bot.dto.request.AddLinkRequest;
+    import edu.java.bot.dto.request.RemoveLinkRequest;
+    import edu.java.bot.dto.response.LinkResponse;
+    import edu.java.bot.dto.response.ListLinksResponse;
+    import org.springframework.http.ResponseEntity;
+    import org.springframework.web.bind.annotation.DeleteMapping;
+    import org.springframework.web.bind.annotation.GetMapping;
+    import org.springframework.web.bind.annotation.PostMapping;
+    import org.springframework.web.bind.annotation.RequestBody;
+    import org.springframework.web.bind.annotation.RequestHeader;
+    import org.springframework.web.bind.annotation.RestController;
+    import java.util.ArrayList;
+    import java.util.List;
+
+    @RestController
+    public class LinkController {
+        @GetMapping("/links")
+        public ResponseEntity<ListLinksResponse> getAllLinks(@RequestHeader("Tg-Chat-Id") Long thChatId) {
+            ListLinksResponse response = new ListLinksResponse();
+            return ResponseEntity.ok(response);
+        }
+        @PostMapping("/links")
+        public ResponseEntity<LinkResponse> addLink(@RequestHeader("Tg-Chat-Id") Long chatId,
+            @RequestBody AddLinkRequest request) {
+            LinkResponse response = new LinkResponse(1L, request.getLink());
+            return ResponseEntity.ok(response);
+        }
+
+        @DeleteMapping("/links")
+        public ResponseEntity<LinkResponse> removeLink(@RequestHeader("Tg-Chat-Id") Long chatId,
+            @RequestBody RemoveLinkRequest request) {
+            LinkResponse response = new LinkResponse(1L, request.getLink());
+            return ResponseEntity.ok(response);
+        }
+    }

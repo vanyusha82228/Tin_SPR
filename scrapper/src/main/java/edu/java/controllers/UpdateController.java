@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UpdateController {
 
     @PostMapping("/updates")
-    public ResponseEntity<?> handleUpdate(@RequestBody LinkUpdate linkUpdater){
+    public ResponseEntity<?> handleUpdate(@RequestBody LinkUpdate linkUpdater) {
         return ResponseEntity.ok("Обновление успешно обработано");
     }
 
