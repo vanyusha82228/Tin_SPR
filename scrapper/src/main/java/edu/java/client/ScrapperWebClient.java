@@ -1,8 +1,9 @@
-package edu.java.bot.client;
+package edu.java.client;
 
-import edu.java.bot.dto.request.AddLinkRequest;
-import edu.java.bot.dto.request.RemoveLinkRequest;
+
 import java.net.URI;
+import edu.java.dto.request.AddLinkRequest;
+import edu.java.dto.request.RemoveLinkRequest;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 

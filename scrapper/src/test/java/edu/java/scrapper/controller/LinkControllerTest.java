@@ -1,9 +1,9 @@
-package edu.java.bot.controller;
+package edu.java.scrapper.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.java.bot.controllers.LinkController;
-import edu.java.bot.dto.request.AddLinkRequest;
-import edu.java.bot.dto.request.RemoveLinkRequest;
+import edu.java.controllers.LinkController;
+import edu.java.dto.request.AddLinkRequest;
+import edu.java.dto.request.RemoveLinkRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

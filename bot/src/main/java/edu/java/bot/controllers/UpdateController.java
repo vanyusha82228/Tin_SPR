@@ -1,6 +1,7 @@
-package edu.java.controllers;
+package edu.java.bot.controllers;
 
-import edu.java.dto.responseDto.LinkUpdate;
+
+import edu.java.bot.dto.responseDto.LinkUpdate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

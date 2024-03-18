@@ -1,8 +1,8 @@
-package edu.java.scrapper.controller;
+package edu.java.bot.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.java.controllers.GlobalExceptionHandler;
-import edu.java.dto.responseDto.ApiErrorResponse;
+import edu.java.bot.controllers.GlobalExceptionHandler;
+
+import edu.java.bot.dto.responseDto.ApiErrorResponse;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

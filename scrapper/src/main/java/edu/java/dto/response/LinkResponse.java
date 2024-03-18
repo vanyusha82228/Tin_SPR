@@ -1,4 +1,4 @@
-package edu.java.bot.dto.request;
+package edu.java.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RemoveLinkRequest {
-    private String link;
+public class LinkResponse {
+    private Long id;
+    private String uri;
 }

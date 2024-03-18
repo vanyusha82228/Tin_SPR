@@ -1,7 +1,8 @@
-package edu.java.bot.controller;
+package edu.java.scrapper.controller;
 
 
-import edu.java.bot.controllers.ChatController;
+
+import edu.java.controllers.ChatController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

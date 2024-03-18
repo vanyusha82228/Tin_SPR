@@ -1,9 +1,10 @@
-    package edu.java.bot.controllers;
+    package edu.java.controllers;
 
-    import edu.java.bot.dto.request.AddLinkRequest;
-    import edu.java.bot.dto.request.RemoveLinkRequest;
-    import edu.java.bot.dto.response.LinkResponse;
-    import edu.java.bot.dto.response.ListLinksResponse;
+
+    import edu.java.dto.request.AddLinkRequest;
+    import edu.java.dto.request.RemoveLinkRequest;
+    import edu.java.dto.response.LinkResponse;
+    import edu.java.dto.response.ListLinksResponse;
     import org.springframework.http.ResponseEntity;
     import org.springframework.web.bind.annotation.DeleteMapping;
     import org.springframework.web.bind.annotation.GetMapping;
