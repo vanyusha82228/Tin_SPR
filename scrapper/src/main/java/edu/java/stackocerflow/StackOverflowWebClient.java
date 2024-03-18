@@ -1,7 +1,7 @@
 package edu.java.stackocerflow;
 
 import edu.java.configuration.ApplicationConfig;
-import edu.java.dto.StackOverflowResponseDTO;
+import edu.java.dto.clintsDto.StackOverflowResponseDTO;
 import edu.java.interfaceForClient.StackOverflowClientInterface;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;

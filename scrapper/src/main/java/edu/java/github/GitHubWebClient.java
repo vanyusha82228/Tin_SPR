@@ -1,7 +1,7 @@
 package edu.java.github;
 
 import edu.java.configuration.ApplicationConfig;
-import edu.java.dto.GitHubRepositoryDTO;
+import edu.java.dto.clintsDto.GitHubRepositoryDTO;
 import edu.java.interfaceForClient.GitHubClientInterface;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;

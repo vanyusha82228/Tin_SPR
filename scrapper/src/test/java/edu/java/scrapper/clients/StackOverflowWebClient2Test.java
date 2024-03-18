@@ -1,9 +1,9 @@
-package edu.java.scrapper;
+package edu.java.scrapper.clients;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import edu.java.configuration.ApplicationConfig;
-import edu.java.dto.StackOverflowQuestionDTO;
-import edu.java.dto.StackOverflowResponseDTO;
+import edu.java.dto.clintsDto.StackOverflowQuestionDTO;
+import edu.java.dto.clintsDto.StackOverflowResponseDTO;
 import edu.java.stackocerflow.StackOverflowWebClient;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -32,6 +32,7 @@ public class StackOverflowWebClient2Test {
 
     @BeforeEach
     public void setUp() {
+
         wireMockServer.resetAll();
         String baseUrl = wireMockServer.baseUrl();
         ApplicationConfig applicationConfig = new ApplicationConfig(

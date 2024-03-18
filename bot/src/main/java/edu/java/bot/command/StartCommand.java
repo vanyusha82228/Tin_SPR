@@ -3,7 +3,7 @@ package edu.java.bot.command;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.interfaceForProject.Command;
-import edu.java.bot.user.UserRepository;
+import edu.java.bot.interfaceForProject.UserRepository;
 import org.springframework.stereotype.Component;
 import static edu.java.bot.servicebot.SendMessageInChat.sendMessageInChat;
 
@@ -28,11 +28,10 @@ public class StartCommand implements Command {
     @Override
     public SendMessage handle(Update update) {
         Long userId = update.message().from().id();
-        String userName = update.message().from().username();
-        if (userRepository.getUsers().containsKey(userId)) {
-            return sendMessageInChat(update, "Вы зарегистрированы!");
+        if (!userRepository.listLinkByUserId(userId).isEmpty()) {
+            return sendMessageInChat(update, "Вы уже зарегистрированы!");
         } else {
-            userRepository.getUsers().put(userId, userName);
+            userRepository.addUserLink(userId, "");
             return sendMessageInChat(update, "Вы успешно зарегистрированы!");
         }
     }

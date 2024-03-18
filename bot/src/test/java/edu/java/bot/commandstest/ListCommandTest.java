@@ -1,11 +1,11 @@
-package commandstest;
+package edu.java.bot.commandstest;
 
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.User;
 import edu.java.bot.command.ListCommand;
-import edu.java.bot.user.UserRepository;
+import edu.java.bot.interfaceForProject.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class ListCommandTest {
 
     @BeforeEach
     public void setUp() {
-        userRepository = new UserRepository();
+        userRepository = mock(UserRepository.class);
         listCommand = new ListCommand(userRepository);
     }
 
@@ -36,12 +36,13 @@ public class ListCommandTest {
 
     @Test
     public void testHandle() {
-        // Подготовка данных в репозитории
+        // Подготовка данных в макете репозитория
         List<String> trackedLinks = new ArrayList<>();
         trackedLinks.add("https://example.com/link1");
         trackedLinks.add("https://example.com/link2");
-        userRepository.getTrackedLinks().addAll(trackedLinks);
+        when(userRepository.listLinkByUserId(12345L)).thenReturn(trackedLinks);
 
+        // Создание макетов для Update, Message и Chat
         Update mockUpdate = mock(Update.class);
         Message mockMessage = mock(Message.class);
         User mockUser = mock(User.class);
@@ -49,16 +50,17 @@ public class ListCommandTest {
 
         // Настройка поведения макетов
         when(mockUpdate.message()).thenReturn(mockMessage);
+        when(mockMessage.from()).thenReturn(mockUser);
+        when(mockUser.id()).thenReturn(123L); // Возвращаем идентификатор пользователя
         when(mockMessage.text()).thenReturn("/list");
         when(mockMessage.chat()).thenReturn(mockChat); // мокируем chat
         when(mockChat.id()).thenReturn(12345L); // возвращаем идентификатор чата
-
 
         // Обработка команды /list
         listCommand.handle(mockUpdate);
 
         // Проверка, что количество ссылок в репозитории соответствует ожидаемому
-        assertEquals(trackedLinks.size(), userRepository.getTrackedLinks().size());
+        assertEquals(trackedLinks.size(), userRepository.listLinkByUserId(12345L).size());
     }
 
     @Test
