@@ -10,4 +10,5 @@
     <include file="02_create_chat_table.sql"/>
     <include file="01_create_user_table.sql"/>
     <include file="03_create_link_table.sql"/>
+    <include file="04_add_updated_at_column.sql"/>
 </databaseChangeLog>
