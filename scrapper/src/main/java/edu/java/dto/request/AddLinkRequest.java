@@ -1,4 +1,4 @@
-package edu.java.bot.dto.request;
+package edu.java.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

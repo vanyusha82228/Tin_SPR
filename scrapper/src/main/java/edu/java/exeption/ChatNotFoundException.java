@@ -1,4 +1,4 @@
-package edu.java.bot.exeption;
+package edu.java.exeption;
 
 public class ChatNotFoundException extends RuntimeException {
 

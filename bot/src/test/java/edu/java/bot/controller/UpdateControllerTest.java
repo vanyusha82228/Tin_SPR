@@ -1,8 +1,9 @@
-package edu.java.scrapper.controller;
+package edu.java.bot.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.java.controllers.UpdateController;
-import edu.java.dto.responseDto.LinkUpdate;
+
+import edu.java.bot.controllers.UpdateController;
+import edu.java.bot.dto.responseDto.LinkUpdate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

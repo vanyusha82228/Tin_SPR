@@ -1,6 +1,6 @@
-package edu.java.client;
+package edu.java.bot.client;
 
-import edu.java.dto.responseDto.LinkUpdate;
+import edu.java.bot.dto.responseDto.LinkUpdate;
 import java.net.URI;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
