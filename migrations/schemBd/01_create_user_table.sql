@@ -1,5 +1,5 @@
 CREATE TABLE "user" (
-    id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     telegram_id BIGINT NOT NULL UNIQUE,
     username TEXT,
     chat_id BIGINT NOT NULL,

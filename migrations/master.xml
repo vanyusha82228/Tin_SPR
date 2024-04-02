@@ -7,10 +7,27 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <include file="02_create_chat_table.sql"/>
-    <include file="01_create_user_table.sql"/>
-    <include file="03_create_link_table.sql"/>
-    <include file="04_add_updated_at_column.sql"/>
-    <include file="05_create_resource_table.sql"/>
-    <include file="06_add_resource_id_column_to_link.sql"/>
+
+    <changeSet id="02_create_chat_table.sql" author="Ivan Makarov">
+        <sqlFile path="schemBd/02_create_chat_table.sql"/>
+    </changeSet>
+    <changeSet id="01_create_user_table.sql" author="Ivan Makarov">
+        <sqlFile path="schemBd/01_create_user_table.sql"/>
+    </changeSet>
+    <changeSet id="03_create_link_table.sql" author="Ivan Makarov">
+        <sqlFile path="schemBd/03_create_link_table.sql"/>
+    </changeSet>
+    <changeSet id="04_add_updated_at_column.sql" author="Ivan Makarov">
+        <sqlFile path="schemBd/04_add_updated_at_column.sql"/>
+    </changeSet>
+    <changeSet id="05_create_resource_table.sql" author="Ivan Makarov">
+        <sqlFile path="schemBd/05_create_resource_table.sql"/>
+    </changeSet>
+    <changeSet id="06_add_resource_id_column_to_link.sql" author="Ivan Makarov">
+        <sqlFile path="schemBd/06_add_resource_id_column_to_link.sql"/>
+    </changeSet>
+    <changeSet id="07_create_link_table.sql" author="Ivan Makarov">
+        <sqlFile path="schemBd/07_create_link_table.sql"/>
+    </changeSet>
+
 </databaseChangeLog>

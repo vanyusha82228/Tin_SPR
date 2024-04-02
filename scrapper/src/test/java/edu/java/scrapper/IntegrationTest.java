@@ -1,17 +1,21 @@
 package edu.java.scrapper;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import liquibase.Contexts;
+import liquibase.LabelExpression;
 import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
-import liquibase.resource.FileSystemResourceAccessor;
+import liquibase.resource.DirectoryResourceAccessor;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import java.sql.Connection;
-import java.sql.DriverManager;
 
 @Testcontainers
 public abstract class IntegrationTest {
@@ -28,20 +32,18 @@ public abstract class IntegrationTest {
     }
 
     private static void runMigrations(JdbcDatabaseContainer<?> c) {
-        try {
-            // Создаем подключение к базе данных
-            Connection conn = DriverManager.getConnection(c.getJdbcUrl(), c.getUsername(), c.getPassword());
+        try (Connection conn = DriverManager.getConnection(c.getJdbcUrl(), c.getUsername(), c.getPassword())) {
 
-            // Создаем объект базы данных для Liquibase
-            Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(conn));
+            Database database =
+                DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(conn));
 
-            // Создаем объект Liquibase с указанием пути к changelog-файлу
-            Liquibase liquibase = new Liquibase("F:\\TinkoffSpring\\migrations\\master.xml", new FileSystemResourceAccessor(), database);
-            // Применяем миграции
-            liquibase.update("");
+            Path scrapperPath = Paths.get("").toAbsolutePath();
+            Path changelogPath = scrapperPath.getParent().resolve("migrations");
+            Liquibase liquibase = new Liquibase(
+                "master.xml", new DirectoryResourceAccessor(changelogPath), database);
+            liquibase.update(new Contexts(), new LabelExpression());
         } catch (Exception e) {
             e.printStackTrace();
-            // Обработка ошибок
         }
     }
 

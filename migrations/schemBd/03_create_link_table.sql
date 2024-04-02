@@ -1,0 +1,4 @@
+CREATE TABLE link (
+    id SERIAL PRIMARY KEY,
+    uri TEXT NOT NULL
+);
