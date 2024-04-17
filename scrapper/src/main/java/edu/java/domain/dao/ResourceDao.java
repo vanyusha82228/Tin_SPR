@@ -1,10 +1,10 @@
 package edu.java.domain.dao;
 
 import edu.java.domain.model.Resource;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import java.util.List;
 
 @Repository
 public class ResourceDao implements GenericDao<Resource> {

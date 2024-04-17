@@ -1,14 +1,15 @@
 package edu.java.domain.dao;
 
 import edu.java.domain.model.Link;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import java.util.List;
 
 @Repository
-public class LinkDao implements GenericDao<Link>{
+public class LinkDao implements GenericDao<Link> {
     private final JdbcTemplate jdbcTemplate;
+
     @Autowired
     public LinkDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

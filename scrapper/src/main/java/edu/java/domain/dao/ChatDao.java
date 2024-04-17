@@ -1,18 +1,20 @@
 package edu.java.domain.dao;
 
 import edu.java.domain.model.Chat;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import java.util.List;
 
 @Repository
 public class ChatDao implements GenericDao<Chat> {
     private final JdbcTemplate jdbcTemplate;
+
     @Autowired
     public ChatDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
     @Override
     public void add(Chat chat) {
         jdbcTemplate.update(
