@@ -18,19 +18,18 @@ public class LinkUpdaterScheduler {
     private final GitHubClientInterface gitHubClient;
     private final StackOverflowClientInterface stackOverflowClient;
     private final LinkService linkService;
-    private final BotWebClient botWebClient;
+
 
     @Autowired
     public LinkUpdaterScheduler(
         GitHubClientInterface gitHubClient,
         StackOverflowClientInterface stackOverflowClient,
-        LinkService linkService,
-        BotWebClient botWebClient
+        LinkService linkService
     ) {
         this.gitHubClient = gitHubClient;
         this.stackOverflowClient = stackOverflowClient;
         this.linkService = linkService;
-        this.botWebClient = botWebClient;
+
     }
 
     @Scheduled(fixedDelayString = "#{@scheduler.interval.toMillis()}")

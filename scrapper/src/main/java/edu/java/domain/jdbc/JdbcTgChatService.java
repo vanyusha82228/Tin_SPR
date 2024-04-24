@@ -26,7 +26,6 @@ public class JdbcTgChatService implements TgChatService {
 
     @Override
     public void unregister(long tgChatId) {
-        // Отмена регистрации чата
         chatDao.remove(tgChatId);
     }
 }

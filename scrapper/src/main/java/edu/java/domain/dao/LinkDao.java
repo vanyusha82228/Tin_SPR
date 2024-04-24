@@ -2,10 +2,13 @@ package edu.java.domain.dao;
 
 import edu.java.domain.model.Link;
 import java.util.List;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+@Log4j2
 @Repository
 public class LinkDao implements GenericDao<Link> {
     private final JdbcTemplate jdbcTemplate;
@@ -17,15 +20,25 @@ public class LinkDao implements GenericDao<Link> {
 
     @Override
     public void add(Link link) {
-        jdbcTemplate.update(
-            "INSERT INTO link (uri, updated_at, resource_id) VALUES (?, ?, ?)",
-            link.getUri(), link.getUpdatedAt(), link.getResourceId()
-        );
+        try {
+            jdbcTemplate.update(
+                "INSERT INTO link (uri, updated_at, resource_id) VALUES (?, ?, ?)",
+                link.getUri(), link.getUpdatedAt(), link.getResourceId()
+            );
+        } catch (DataAccessException e) {
+            log.error(e);
+        }
+
     }
 
     @Override
     public void remove(Long id) {
-        jdbcTemplate.update("DELETE FROM link WHERE id = ?", id);
+        try {
+            jdbcTemplate.update("DELETE FROM link WHERE id = ?", id);
+        } catch (DataAccessException e) {
+            log.error(e);
+        }
+
     }
 
     @Override
