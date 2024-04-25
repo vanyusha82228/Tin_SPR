@@ -1,5 +1,7 @@
-package edu.java.domain.dao;
+package edu.java.domain.repository;
 
+import edu.java.domain.model.Link;
+import edu.java.domain.model.User;
 import edu.java.domain.model.UserLink;
 import java.util.Collections;
 import java.util.List;
@@ -11,11 +13,11 @@ import org.springframework.stereotype.Repository;
 
 @Log4j2
 @Repository
-public class UserLinkDao implements GenericDao<UserLink> {
+public class UserLinkRepository implements GenericDao<UserLink> {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public UserLinkDao(JdbcTemplate jdbcTemplate) {
+    public UserLinkRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -33,11 +35,19 @@ public class UserLinkDao implements GenericDao<UserLink> {
 
     @Override
     public void remove(Long id) {
-        try {
-            jdbcTemplate.update("DELETE FROM user_link WHERE id = ?", id);
-        } catch (DataAccessException e) {
-            log.error(e);
-        }
+//        try {
+//            jdbcTemplate.update("DELETE FROM user_link WHERE id = ?", id);
+//        } catch (DataAccessException e) {
+//            log.error(e);
+//        }
+    }
+
+    public void remove(User user, Link link){
+        jdbcTemplate.update(
+            "delete from user_link where user_id = ? and link_id = ?",
+            user.getId(),
+            link.getId()
+        );
     }
 
     @Override

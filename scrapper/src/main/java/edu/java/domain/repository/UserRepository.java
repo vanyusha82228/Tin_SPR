@@ -1,21 +1,23 @@
-package edu.java.domain.dao;
+package edu.java.domain.repository;
 
 import edu.java.domain.model.User;
 import java.util.Collections;
 import java.util.List;
+import edu.java.domain.model.UserLink;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Log4j2
 @Repository
-public class UserDao implements GenericDao<User> {
+public class UserRepository implements GenericDao<User> {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public UserDao(JdbcTemplate jdbcTemplate) {
+    public UserRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -58,5 +60,17 @@ public class UserDao implements GenericDao<User> {
             log.error("Failed to retrieve users", e);
             return Collections.emptyList();
         }
+    }
+
+    public User findUserByChatId(long chatId) {
+        String query = String.
+            format("SELECT * FROM user JOIN chat ON \"user\".chat_id = chat.id WHERE chat.id = %d", chatId);
+        try {
+            return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(User.class));
+        } catch (DataAccessException e) {
+            log.error("Failed to retrieve users", e);
+        }
+
+        return null;
     }
 }

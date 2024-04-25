@@ -15,33 +15,11 @@ import org.springframework.stereotype.Component;
 @EnableScheduling
 public class LinkUpdaterScheduler {
 
-    private final GitHubClientInterface gitHubClient;
-    private final StackOverflowClientInterface stackOverflowClient;
-    private final LinkService linkService;
-
-
-    @Autowired
-    public LinkUpdaterScheduler(
-        GitHubClientInterface gitHubClient,
-        StackOverflowClientInterface stackOverflowClient,
-        LinkService linkService
-    ) {
-        this.gitHubClient = gitHubClient;
-        this.stackOverflowClient = stackOverflowClient;
-        this.linkService = linkService;
-
-    }
-
     @Scheduled(fixedDelayString = "#{@scheduler.interval.toMillis()}")
     public void update() {
         log.info("Обновление ссылок...");
 
         // Получаем список всех ссылок из базы данных
-
-    }
-
-    private void sendUpdateToBot(Link link) {
-        // Отправляем уведомление о обновлении ссылки боту
 
     }
 
