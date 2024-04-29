@@ -1,13 +1,12 @@
 package edu.java.scrapper.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.java.controllers.LinkController;
-import edu.java.domain.model.UserLink;
-import edu.java.domain.jdbc.JdbcLinkService;
-import edu.java.dto.request.AddLinkRequest;
-import edu.java.dto.request.RemoveLinkRequest;
-import edu.java.dto.response.LinkResponse;
-import edu.java.dto.response.ListLinksResponse;
+
+import edu.java.scrapper.controllers.LinkController;
+import edu.java.scrapper.domain.jdbc.JdbcLinkService;
+import edu.java.scrapper.domain.model.UserLink;
+import edu.java.scrapper.dto.request.AddLinkRequest;
+import edu.java.scrapper.dto.request.RemoveLinkRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
