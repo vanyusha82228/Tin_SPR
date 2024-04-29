@@ -3,9 +3,11 @@ package edu.java.client;
 import edu.java.dto.request.AddLinkRequest;
 import edu.java.dto.request.RemoveLinkRequest;
 import java.net.URI;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+@Component
 public class ScrapperWebClient {
     private final WebClient webClient;
     private final static String URI = "/links";

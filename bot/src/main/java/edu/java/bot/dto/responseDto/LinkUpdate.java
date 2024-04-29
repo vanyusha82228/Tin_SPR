@@ -11,7 +11,6 @@ import lombok.NonNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LinkUpdate {
-    @NonNull
     private long id;
     @NotEmpty
     private String url;
