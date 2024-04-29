@@ -142,6 +142,7 @@
             <artifactId>bot</artifactId>
             <version>0.1</version>
             <scope>compile</scope>
+            <classifier>qa</classifier>
         </dependency>
     </dependencies>
 
