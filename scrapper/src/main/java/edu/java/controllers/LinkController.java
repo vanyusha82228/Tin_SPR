@@ -1,7 +1,7 @@
 package edu.java.controllers;
 
 import edu.java.domain.jdbc.JdbcLinkService;
-import edu.java.domain.model.Link;
+import edu.java.domain.model.UserLink;
 import edu.java.dto.request.AddLinkRequest;
 import edu.java.dto.request.RemoveLinkRequest;
 import edu.java.dto.response.LinkResponse;
@@ -31,9 +31,9 @@ public class LinkController {
 
     @GetMapping("/links")
     public ResponseEntity<ListLinksResponse> getAllLinks(@RequestHeader("Tg-Chat-Id") Long tgChatId) {
-        Collection<Link> links = linkService.listAll(tgChatId);
+        Collection<UserLink> links = linkService.listAll(tgChatId);
         List<LinkResponse> linkResponses = links.stream()
-            .map(link -> new LinkResponse(link.getId(), link.getUri()))
+            .map(link -> new LinkResponse(link.getLinkId(), link.getUserId().toString()))
             .collect(Collectors.toList());
         ListLinksResponse response = new ListLinksResponse(linkResponses, linkResponses.size());
         return ResponseEntity.ok(response);
@@ -45,8 +45,11 @@ public class LinkController {
         @RequestBody AddLinkRequest request
     ) {
         URI url = URI.create(request.getLink());
-        Link addedLink = linkService.add(chatId, url);
-        LinkResponse response = new LinkResponse(addedLink.getId(), addedLink.getUri());
+        UserLink addedLink = linkService.add(chatId, url);
+        if (addedLink == null) {
+            return ResponseEntity.notFound().build();
+        }
+        LinkResponse response = new LinkResponse(addedLink.getLinkId(), request.getLink());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -56,8 +59,11 @@ public class LinkController {
         @RequestBody RemoveLinkRequest request
     ) {
         URI url = URI.create(request.getLink());
-        Link removedLink = linkService.remove(chatId, url);
-        LinkResponse response = new LinkResponse(removedLink.getId(), removedLink.getUri());
+        UserLink removedLink = linkService.remove(chatId, url);
+        if (removedLink == null) {
+            return ResponseEntity.notFound().build();
+        }
+        LinkResponse response = new LinkResponse(removedLink.getLinkId(), request.getLink());
         return ResponseEntity.ok(response);
     }
 }

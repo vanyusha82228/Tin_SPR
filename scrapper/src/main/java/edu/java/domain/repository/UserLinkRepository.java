@@ -35,14 +35,9 @@ public class UserLinkRepository implements GenericDao<UserLink> {
 
     @Override
     public void remove(Long id) {
-//        try {
-//            jdbcTemplate.update("DELETE FROM user_link WHERE id = ?", id);
-//        } catch (DataAccessException e) {
-//            log.error(e);
-//        }
     }
 
-    public void remove(User user, Link link){
+    public void remove(User user, Link link) {
         jdbcTemplate.update(
             "delete from user_link where user_id = ? and link_id = ?",
             user.getId(),
@@ -54,7 +49,7 @@ public class UserLinkRepository implements GenericDao<UserLink> {
     public List<UserLink> findAll() {
         try {
             return jdbcTemplate.query(
-                "SELECT * FROM user_link",
+                "SELECT user_id, link_id FROM user_link",
                 (rs, rowNum) -> {
                     UserLink userLink = new UserLink();
                     userLink.setUserId(rs.getLong("user_id"));

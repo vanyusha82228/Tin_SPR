@@ -2,7 +2,6 @@ package edu.java.domain.repository;
 
 import edu.java.domain.model.Resource;
 import java.util.List;
-import edu.java.domain.model.UserLink;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -43,7 +42,7 @@ public class ResourceRepository implements GenericDao<Resource> {
     @Override
     public List<Resource> findAll() {
         return jdbcTemplate.query(
-            "SELECT * FROM resource",
+            "SELECT id, name FROM resource",
             (rs, rowNum) -> {
                 Resource resource = new Resource();
                 resource.setId(rs.getLong("id"));

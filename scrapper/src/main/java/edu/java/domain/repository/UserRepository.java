@@ -3,7 +3,6 @@ package edu.java.domain.repository;
 import edu.java.domain.model.User;
 import java.util.Collections;
 import java.util.List;
-import edu.java.domain.model.UserLink;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Repository;
 @Log4j2
 @Repository
 public class UserRepository implements GenericDao<User> {
+    private static final String FAILED_TO_RETRIEVE_USERS = "Failed to retrieve users";
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -25,7 +25,10 @@ public class UserRepository implements GenericDao<User> {
     public void add(User user) {
         try {
             jdbcTemplate.update(
-                "INSERT INTO user (telegram_id, username, chat_id) VALUES (?, ?, ?)",
+                """
+                INSERT INTO user (telegram_id, username, chat_id)
+                VALUES (?, ?, ?)
+                """,
                 user.getTelegramId(), user.getUsername(), user.getChatId()
             );
         } catch (DataAccessException e) {
@@ -36,7 +39,10 @@ public class UserRepository implements GenericDao<User> {
     @Override
     public void remove(Long id) {
         try {
-            jdbcTemplate.update("DELETE FROM user WHERE id = ?", id);
+            jdbcTemplate.update(
+                "DELETE FROM user WHERE id = ?",
+                id
+            );
         } catch (DataAccessException e) {
             log.error(e);
         }
@@ -46,7 +52,10 @@ public class UserRepository implements GenericDao<User> {
     public List<User> findAll() {
         try {
             return jdbcTemplate.query(
-                "SELECT * FROM user",
+                """
+                SELECT id, telegram_id, username, chat_id
+                FROM user
+                """,
                 (rs, rowNum) -> {
                     User user = new User();
                     user.setId(rs.getLong("id"));
@@ -57,18 +66,22 @@ public class UserRepository implements GenericDao<User> {
                 }
             );
         } catch (DataAccessException e) {
-            log.error("Failed to retrieve users", e);
+            log.error(FAILED_TO_RETRIEVE_USERS, e);
             return Collections.emptyList();
         }
     }
 
     public User findUserByChatId(long chatId) {
-        String query = String.
-            format("SELECT * FROM user JOIN chat ON \"user\".chat_id = chat.id WHERE chat.id = %d", chatId);
+        String query = """
+                SELECT id, telegram_id, username, chat_id
+                FROM user
+                JOIN chat ON "user".chat_id = chat.id
+                WHERE chat.id = %d
+                """.formatted(chatId);
         try {
             return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(User.class));
         } catch (DataAccessException e) {
-            log.error("Failed to retrieve users", e);
+            log.error(FAILED_TO_RETRIEVE_USERS, e);
         }
 
         return null;

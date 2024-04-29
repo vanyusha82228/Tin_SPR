@@ -1,8 +1,8 @@
 package edu.java.domain.jdbc;
 
+import edu.java.domain.jdbcInterface.TgChatService;
 import edu.java.domain.model.Chat;
 import edu.java.domain.repository.ChatRepository;
-import edu.java.domain.jdbcInterface.TgChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

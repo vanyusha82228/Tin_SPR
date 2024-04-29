@@ -4,7 +4,6 @@ import edu.java.domain.model.Chat;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import edu.java.domain.model.UserLink;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
