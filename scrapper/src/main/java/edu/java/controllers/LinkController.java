@@ -33,7 +33,10 @@ public class LinkController {
     public ResponseEntity<ListLinksResponse> getAllLinks(@RequestHeader("Tg-Chat-Id") Long tgChatId) {
         Collection<UserLink> links = linkService.listAll(tgChatId);
         List<LinkResponse> linkResponses = links.stream()
-            .map(link -> new LinkResponse(link.getLinkId(), link.getUserId().toString()))
+            .map(link -> {
+                String userId = link.getUserId() != null ? link.getUserId().toString() : "null";
+                return new LinkResponse(link.getLinkId(), userId);
+            })
             .collect(Collectors.toList());
         ListLinksResponse response = new ListLinksResponse(linkResponses, linkResponses.size());
         return ResponseEntity.ok(response);

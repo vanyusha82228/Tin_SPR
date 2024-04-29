@@ -3,34 +3,51 @@ package edu.java.scrapper.controller;
 
 
 import edu.java.controllers.ChatController;
+import edu.java.domain.jdbc.JdbcTgChatService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+@ExtendWith(SpringExtension.class)
 @WebMvcTest(ChatController.class)
-public class ChatControllerTest {
+class ChatControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
+    @MockBean
+    private JdbcTgChatService tgChatService;
+
     @Test
-    public void testRegisterChat() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/tg-chat/{id}", 123L)
+    void testRegisterChat() throws Exception {
+        long chatId = 123456L;
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/tg-chat/{id}", chatId)
                 .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
+            .andExpect(MockMvcResultMatchers.status().isOk());
+
+        Mockito.verify(tgChatService, Mockito.times(1)).register(chatId);
     }
 
     @Test
-    public void testDeleteChat() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/tg-chat/{id}", 123L)
+    void testDeleteChat() throws Exception {
+        long chatId = 123456L;
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/tg-chat/{id}", chatId)
                 .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
+            .andExpect(MockMvcResultMatchers.status().isOk());
+
+        Mockito.verify(tgChatService, Mockito.times(1)).unregister(chatId);
     }
 }
+
 
 
