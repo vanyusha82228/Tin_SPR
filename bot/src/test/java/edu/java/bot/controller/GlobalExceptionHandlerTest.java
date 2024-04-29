@@ -1,6 +1,6 @@
 package edu.java.bot.controller;
 
-import edu.java.bot.controllers.GlobalExceptionHandler;
+import edu.java.bot.controllers.GlobalExceptionHandlerBot;
 
 import edu.java.bot.dto.responseDto.ApiErrorResponse;
 import jakarta.validation.ConstraintViolationException;
@@ -15,11 +15,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GlobalExceptionHandlerTest {
 
-    private GlobalExceptionHandler globalExceptionHandler;
+    private GlobalExceptionHandlerBot globalExceptionHandler;
 
     @BeforeEach
     void setUp() {
-        globalExceptionHandler = new GlobalExceptionHandler();
+        globalExceptionHandler = new GlobalExceptionHandlerBot();
     }
 
     @Test
