@@ -2,9 +2,9 @@ package edu.java.scrapper.configuration;
 
 import edu.java.bot.client.BotWebClient;
 import edu.java.scrapper.client.ScrapperWebClient;
+import java.net.URI;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import java.net.URI;
 
 @Configuration
 public class WebClientConfig {
@@ -24,6 +24,7 @@ public class WebClientConfig {
     public ScrapperWebClient scrapperWebClient(URI baseUri) {
         return new ScrapperWebClient(baseUri);
     }
+
     @Bean
     public BotWebClient botWebClient(URI baseUri) {
         return new BotWebClient(baseUri);
