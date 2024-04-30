@@ -1,11 +1,11 @@
 package edu.java.scrapper.domain.repository;
 
 import edu.java.scrapper.domain.model.Link;
+import edu.java.scrapper.domain.model.Resource;
 import java.net.URI;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
-import edu.java.scrapper.domain.model.Resource;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;

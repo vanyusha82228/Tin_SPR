@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 @Log4j2
 @Repository
 public class ResourceRepository implements GenericDao<Resource> {
+    private static final String NAME = "name";
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -47,20 +48,21 @@ public class ResourceRepository implements GenericDao<Resource> {
             (rs, rowNum) -> {
                 Resource resource = new Resource();
                 resource.setId(rs.getLong("id"));
-                resource.setName(rs.getString("name"));
+                resource.setName(rs.getString(NAME));
                 return resource;
             }
         );
     }
+
     public Optional<Resource> findById(Long id) {
         try {
             return jdbcTemplate.queryForObject(
                 "SELECT id, name FROM resource WHERE id = ?",
-                new Object[]{id},
+                new Object[] {id},
                 (rs, rowNum) -> {
                     Resource resource = new Resource();
                     resource.setId(rs.getLong("id"));
-                    resource.setName(rs.getString("name"));
+                    resource.setName(rs.getString(NAME));
                     return Optional.of(resource);
                 }
             );

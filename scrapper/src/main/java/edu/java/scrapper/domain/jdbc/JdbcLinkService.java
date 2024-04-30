@@ -37,8 +37,8 @@ public class JdbcLinkService implements LinkService {
             return null;
         }
         UserLink userLink = new UserLink();
-        userLink.setLinkId(link.getId());
-        userLink.setUserId(user.getId());
+        userLink.setLinkId(link);
+        userLink.setUserId(user);
 
         userLinkRepository.add(userLink);
 
