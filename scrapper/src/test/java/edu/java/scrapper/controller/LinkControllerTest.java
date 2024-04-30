@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.java.scrapper.controllers.LinkController;
 import edu.java.scrapper.domain.jdbc.JdbcLinkService;
-import edu.java.scrapper.domain.jdbcInterface.LinkService;
 import edu.java.scrapper.domain.model.UserLink;
 import edu.java.scrapper.dto.request.AddLinkRequest;
 import edu.java.scrapper.dto.request.RemoveLinkRequest;
@@ -35,7 +34,7 @@ public class LinkControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private LinkService linkService;
+    private JdbcLinkService linkService;
 
     private final Long tgChatId = 123L;
 
