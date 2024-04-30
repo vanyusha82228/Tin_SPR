@@ -18,7 +18,17 @@ public record ApplicationConfig(
     @NotBlank
     String stackOverflowBaseUrl
 
+
+
 ) {
+    @Override public String githubBaseUrl() {
+        return githubBaseUrl;
+    }
+
+    @Override public String stackOverflowBaseUrl() {
+        return stackOverflowBaseUrl;
+    }
+
     public record Scheduler(boolean enable, @NotNull Duration interval, @NotNull Duration forceCheckDelay) {
     }
 }
