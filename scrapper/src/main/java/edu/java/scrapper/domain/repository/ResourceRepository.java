@@ -2,6 +2,7 @@ package edu.java.scrapper.domain.repository;
 
 import edu.java.scrapper.domain.model.Resource;
 import java.util.List;
+import java.util.Optional;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -50,5 +51,22 @@ public class ResourceRepository implements GenericDao<Resource> {
                 return resource;
             }
         );
+    }
+    public Optional<Resource> findById(Long id) {
+        try {
+            return jdbcTemplate.queryForObject(
+                "SELECT id, name FROM resource WHERE id = ?",
+                new Object[]{id},
+                (rs, rowNum) -> {
+                    Resource resource = new Resource();
+                    resource.setId(rs.getLong("id"));
+                    resource.setName(rs.getString("name"));
+                    return Optional.of(resource);
+                }
+            );
+        } catch (DataAccessException e) {
+            log.error("Failed to find resource by id", e);
+            return Optional.empty();
+        }
     }
 }

@@ -4,6 +4,8 @@ import edu.java.scrapper.domain.model.Link;
 import java.net.URI;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Optional;
+import edu.java.scrapper.domain.model.Resource;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -15,10 +17,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class LinkRepository implements GenericDao<Link> {
     private final JdbcTemplate jdbcTemplate;
+    private final ResourceRepository resourceRepository;
+
 
     @Autowired
-    public LinkRepository(JdbcTemplate jdbcTemplate) {
+    public LinkRepository(JdbcTemplate jdbcTemplate, ResourceRepository resourceRepository) {
         this.jdbcTemplate = jdbcTemplate;
+        this.resourceRepository = resourceRepository;
     }
 
     @Override
@@ -51,7 +56,12 @@ public class LinkRepository implements GenericDao<Link> {
                 link.setId(rs.getLong("id"));
                 link.setUri(rs.getString("uri"));
                 link.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime().atOffset(ZoneOffset.UTC));
-                link.setResourceId(rs.getLong("resource_id"));
+
+                // Получаем объект Resource по его идентификатору
+                long resourceId = rs.getLong("resource_id");
+                Optional<Resource> resourceOptional = resourceRepository.findById(resourceId);
+                resourceOptional.ifPresent(link::setResourceId);
+
                 return link;
             }
         );

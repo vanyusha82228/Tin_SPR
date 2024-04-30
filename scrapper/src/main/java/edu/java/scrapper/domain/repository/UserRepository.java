@@ -1,5 +1,6 @@
 package edu.java.scrapper.domain.repository;
 
+import edu.java.scrapper.domain.model.Chat;
 import edu.java.scrapper.domain.model.User;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +30,7 @@ public class UserRepository implements GenericDao<User> {
                 INSERT INTO user (telegram_id, username, chat_id)
                 VALUES (?, ?, ?)
                 """,
-                user.getTelegramId(), user.getUsername(), user.getChatId()
+                user.getTelegramId(), user.getUsername(), user.getChatId().getId()
             );
         } catch (DataAccessException e) {
             log.error(e);
@@ -61,7 +62,9 @@ public class UserRepository implements GenericDao<User> {
                     user.setId(rs.getLong("id"));
                     user.setTelegramId(rs.getLong("telegram_id"));
                     user.setUsername(rs.getString("username"));
-                    user.setChatId(rs.getLong("chat_id"));
+                    Chat chat = new Chat();
+                    chat.setId(rs.getLong("chat_id"));
+                    user.setChatId(chat);
                     return user;
                 }
             );

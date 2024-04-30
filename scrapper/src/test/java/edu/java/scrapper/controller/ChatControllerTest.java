@@ -4,7 +4,7 @@ package edu.java.scrapper.controller;
 
 
 import edu.java.scrapper.controllers.ChatController;
-import edu.java.scrapper.domain.jdbc.JdbcTgChatService;
+import edu.java.scrapper.domain.jdbcInterface.TgChatService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -25,7 +25,7 @@ class ChatControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private JdbcTgChatService tgChatService;
+    private TgChatService tgChatService;
 
     @Test
     void testRegisterChat() throws Exception {

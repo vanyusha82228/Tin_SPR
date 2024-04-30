@@ -26,7 +26,7 @@ public class UserLinkRepository implements GenericDao<UserLink> {
         try {
             jdbcTemplate.update(
                 "INSERT INTO user_link (user_id, link_id) VALUES (?, ?)",
-                userLink.getUserId(), userLink.getLinkId()
+                userLink.getUserId().getId(), userLink.getLinkId().getId()
             );
         } catch (DataAccessException e) {
             log.error(e);
@@ -52,15 +52,21 @@ public class UserLinkRepository implements GenericDao<UserLink> {
                 "SELECT user_id, link_id FROM user_link",
                 (rs, rowNum) -> {
                     UserLink userLink = new UserLink();
-                    userLink.setUserId(rs.getLong("user_id"));
-                    userLink.setLinkId(rs.getLong("link_id"));
+                    // Получаем объекты User и Link по их идентификаторам
+                    User user = new User();
+                    user.setId(rs.getLong("user_id"));
+                    userLink.setUserId(user);
+
+                    Link link = new Link();
+                    link.setId(rs.getLong("link_id"));
+                    userLink.setLinkId(link);
+
                     return userLink;
                 }
             );
         } catch (DataAccessException e) {
             log.error(e);
             return Collections.emptyList();
-
         }
     }
 
