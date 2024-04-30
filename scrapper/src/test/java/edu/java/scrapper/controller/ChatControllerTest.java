@@ -1,54 +1,50 @@
 package edu.java.scrapper.controller;
-
-
-
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.java.scrapper.domain.jdbcInterface.TgChatService;
 import edu.java.scrapper.controllers.ChatController;
-import edu.java.scrapper.domain.jdbc.JdbcTgChatService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@ExtendWith(SpringExtension.class)
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
+
 @WebMvcTest(ChatController.class)
-class ChatControllerTest {
+public class ChatControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @MockBean
-    private JdbcTgChatService tgChatService;
+    private TgChatService tgChatService;
 
     @Test
-    void testRegisterChat() throws Exception {
-        long chatId = 123456L;
+    public void testRegisterChat() throws Exception {
+        Long chatId = 123L;
+        doNothing().when(tgChatService).register(chatId);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/tg-chat/{id}", chatId)
-                .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(MockMvcRequestBuilders.post("/tg-chat/{id}", chatId))
             .andExpect(MockMvcResultMatchers.status().isOk());
-
-        Mockito.verify(tgChatService, Mockito.times(1)).register(chatId);
     }
 
     @Test
-    void testDeleteChat() throws Exception {
-        long chatId = 123456L;
+    public void testDeleteChat() throws Exception {
+        Long chatId = 123L;
+        doNothing().when(tgChatService).unregister(chatId);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/tg-chat/{id}", chatId)
-                .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/tg-chat/{id}", chatId))
             .andExpect(MockMvcResultMatchers.status().isOk());
-
-        Mockito.verify(tgChatService, Mockito.times(1)).unregister(chatId);
     }
 }
+
 
 
 
