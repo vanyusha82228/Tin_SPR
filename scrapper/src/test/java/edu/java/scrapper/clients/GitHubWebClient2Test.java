@@ -2,9 +2,10 @@ package edu.java.scrapper.clients;
 
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import edu.java.configuration.ApplicationConfig;
-import edu.java.dto.clintsDto.GitHubRepositoryDTO;
-import edu.java.github.GitHubWebClient;
+
+import edu.java.scrapper.configuration.ApplicationConfig;
+import edu.java.scrapper.dto.clintsDto.GitHubRepositoryDTO;
+import edu.java.scrapper.github.GitHubWebClient;
 import org.junit.jupiter.api.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import java.time.Duration;
