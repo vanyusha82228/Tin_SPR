@@ -1,8 +1,8 @@
 package edu.java.scrapper.domain.jpaRepository;
 
-import edu.java.scrapper.domain.modelJpa.Link;
-import edu.java.scrapper.domain.modelJpa.User;
-import edu.java.scrapper.domain.modelJpa.UserLink;
+import edu.java.scrapper.domain.model.Link;
+import edu.java.scrapper.domain.model.User;
+import edu.java.scrapper.domain.model.UserLink;
 import java.util.Collection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

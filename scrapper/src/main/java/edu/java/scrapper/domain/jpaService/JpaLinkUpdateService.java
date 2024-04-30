@@ -2,9 +2,9 @@ package edu.java.scrapper.domain.jpaService;
 
 import edu.java.bot.client.BotWebClient;
 import edu.java.bot.dto.responseDto.LinkUpdate;
-import edu.java.scrapper.domain.jpaInterface.LinkUpdater;
+import edu.java.scrapper.domain.jdbcInterface.LinkUpdater;
 import edu.java.scrapper.domain.jpaRepository.JpaLinkRepository;
-import edu.java.scrapper.domain.modelJpa.Link;
+import edu.java.scrapper.domain.model.Link;
 import edu.java.scrapper.dto.clintsDto.GitHubRepositoryDTO;
 import edu.java.scrapper.dto.clintsDto.StackOverflowQuestionDTO;
 import edu.java.scrapper.dto.clintsDto.StackOverflowResponseDTO;

@@ -2,6 +2,7 @@ package edu.java.scrapper.controllers;
 
 
 import edu.java.scrapper.domain.jdbc.JdbcTgChatService;
+import edu.java.scrapper.domain.jdbcInterface.TgChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ChatController {
-    private final JdbcTgChatService tgChatService;
+    private final TgChatService tgChatService;
 
     @Autowired
     public ChatController(JdbcTgChatService tgChatService) {

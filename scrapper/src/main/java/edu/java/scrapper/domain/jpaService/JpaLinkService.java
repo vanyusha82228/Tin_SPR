@@ -1,12 +1,12 @@
 package edu.java.scrapper.domain.jpaService;
 
-import edu.java.scrapper.domain.jpaInterface.LinkService;
+import edu.java.scrapper.domain.jdbcInterface.LinkService;
 import edu.java.scrapper.domain.jpaRepository.JpaLinkRepository;
 import edu.java.scrapper.domain.jpaRepository.JpaUserLinkRepository;
 import edu.java.scrapper.domain.jpaRepository.JpaUserRepository;
-import edu.java.scrapper.domain.modelJpa.Link;
-import edu.java.scrapper.domain.modelJpa.User;
-import edu.java.scrapper.domain.modelJpa.UserLink;
+import edu.java.scrapper.domain.model.Link;
+import edu.java.scrapper.domain.model.User;
+import edu.java.scrapper.domain.model.UserLink;
 import java.net.URI;
 import java.util.Collection;
 import java.util.Collections;
@@ -28,9 +28,8 @@ public class JpaLinkService implements LinkService {
         this.userRepository = userRepository;
     }
 
-
     @Override
-    public UserLink addUserLink(long tgChatId, URI url) {
+    public UserLink add(long tgChatId, URI url) {
         User user = userRepository.findUserByChatId(tgChatId);
         if (user == null) {
             return null;
@@ -40,8 +39,8 @@ public class JpaLinkService implements LinkService {
             return null;
         }
         UserLink userLink = new UserLink();
-        userLink.setLink(link);
-        userLink.setUser(user);
+        userLink.setLinkId(link);
+        userLink.setUserId(user);
 
         userLinkRepository.save(userLink);
 
@@ -49,7 +48,7 @@ public class JpaLinkService implements LinkService {
     }
 
     @Override
-    public UserLink removeUserLink(long tgChatId, URI url) {
+    public UserLink remove(long tgChatId, URI url) {
         User user = userRepository.findUserByChatId(tgChatId);
         if (user == null) {
             return null;
@@ -64,7 +63,7 @@ public class JpaLinkService implements LinkService {
     }
 
     @Override
-    public Collection<UserLink> getAllUserLinks(long tgChatId) {
+    public Collection<UserLink> listAll(long tgChatId) {
         User user = userRepository.findUserByChatId(tgChatId);
         if (user == null) {
             return Collections.emptyList();

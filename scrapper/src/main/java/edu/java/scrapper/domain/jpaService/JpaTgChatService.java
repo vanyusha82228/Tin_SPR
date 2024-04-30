@@ -1,8 +1,9 @@
 package edu.java.scrapper.domain.jpaService;
 
-import edu.java.scrapper.domain.jpaInterface.TgChatService;
+
+import edu.java.scrapper.domain.jdbcInterface.TgChatService;
 import edu.java.scrapper.domain.jpaRepository.JpaChatRepository;
-import edu.java.scrapper.domain.modelJpa.Chat;
+import edu.java.scrapper.domain.model.Chat;
 import org.springframework.beans.factory.annotation.Autowired;
 
 

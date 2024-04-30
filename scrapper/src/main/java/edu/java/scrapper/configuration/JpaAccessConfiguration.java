@@ -1,9 +1,9 @@
 package edu.java.scrapper.configuration;
 
 import edu.java.bot.client.BotWebClient;
-import edu.java.scrapper.domain.jpaInterface.LinkService;
-import edu.java.scrapper.domain.jpaInterface.LinkUpdater;
-import edu.java.scrapper.domain.jpaInterface.TgChatService;
+import edu.java.scrapper.domain.jdbcInterface.LinkService;
+import edu.java.scrapper.domain.jdbcInterface.LinkUpdater;
+import edu.java.scrapper.domain.jdbcInterface.TgChatService;
 import edu.java.scrapper.domain.jpaRepository.JpaChatRepository;
 import edu.java.scrapper.domain.jpaRepository.JpaLinkRepository;
 import edu.java.scrapper.domain.jpaRepository.JpaUserLinkRepository;
