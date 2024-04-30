@@ -5,6 +5,7 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import edu.java.scrapper.configuration.ApplicationConfig;
 import edu.java.scrapper.dto.clintsDto.StackOverflowQuestionDTO;
 import edu.java.scrapper.dto.clintsDto.StackOverflowResponseDTO;
+import edu.java.scrapper.emums.AccessType;
 import edu.java.scrapper.stackocerflow.StackOverflowWebClient;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -39,7 +40,7 @@ public class StackOverflowWebClient2Test {
         ApplicationConfig applicationConfig = new ApplicationConfig(
             new ApplicationConfig.Scheduler(true, Duration.ofSeconds(5), Duration.ofSeconds(5)),
             "",
-            baseUrl
+            baseUrl, AccessType.JPA
         );
         stackOverflowWebClient = new StackOverflowWebClient(WebClient.builder(), applicationConfig);
     }
