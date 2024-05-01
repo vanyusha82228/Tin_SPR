@@ -8,7 +8,7 @@ import java.util.Collection;
 public interface LinkService {
     UserLink add(long tgChatId, URI url);
 
-    UserLink remove(long tgChatId, URI url);
+    void remove(long tgChatId, URI url);
 
     Collection<UserLink> listAll(long tgChatId);
 }

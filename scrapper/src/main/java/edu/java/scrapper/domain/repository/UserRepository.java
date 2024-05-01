@@ -76,17 +76,18 @@ public class UserRepository implements GenericDao<User> {
 
     public User findUserByChatId(long chatId) {
         String query = """
-                SELECT id, telegram_id, username, chat_id
-                FROM user
-                JOIN chat ON "user".chat_id = chat.id
-                WHERE chat.id = %d
-                """.formatted(chatId);
+            SELECT u.id, u.telegram_id, u.username, u.chat_id
+            FROM "user" u
+            JOIN chat c ON u.chat_id = c.id
+            WHERE c.id = ?
+            """;
         try {
-            return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(User.class));
+            return jdbcTemplate.queryForObject(query, new Object[]{chatId}, new BeanPropertyRowMapper<>(User.class));
         } catch (DataAccessException e) {
             log.error(FAILED_TO_RETRIEVE_USERS, e);
         }
 
         return null;
     }
+
 }

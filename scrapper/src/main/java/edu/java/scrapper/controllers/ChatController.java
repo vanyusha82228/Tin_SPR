@@ -1,7 +1,6 @@
 package edu.java.scrapper.controllers;
 
 
-import edu.java.scrapper.domain.jdbc.JdbcTgChatService;
 import edu.java.scrapper.domain.jdbcInterface.TgChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,7 @@ public class ChatController {
     private final TgChatService tgChatService;
 
     @Autowired
-    public ChatController(JdbcTgChatService tgChatService) {
+    public ChatController(TgChatService tgChatService) {
         this.tgChatService = tgChatService;
     }
 

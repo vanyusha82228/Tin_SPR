@@ -49,7 +49,7 @@ public class LinkController {
     ) {
         URI url = URI.create(request.getLink());
         UserLink addedLink = linkService.add(chatId, url);
-        if (addedLink == null) {
+        if (addedLink == null || addedLink.getLinkId() == null) {
             return ResponseEntity.notFound().build();
         }
         LinkResponse response = new LinkResponse(addedLink.getLinkId().getId(), request.getLink());
@@ -62,11 +62,7 @@ public class LinkController {
         @RequestBody RemoveLinkRequest request
     ) {
         URI url = URI.create(request.getLink());
-        UserLink removedLink = linkService.remove(chatId, url);
-        if (removedLink == null) {
-            return ResponseEntity.notFound().build();
-        }
-        LinkResponse response = new LinkResponse(removedLink.getLinkId().getId(), request.getLink());
-        return ResponseEntity.ok(response);
+        linkService.remove(chatId, url);
+        return ResponseEntity.ok().build();
     }
 }

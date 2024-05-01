@@ -22,6 +22,7 @@ import java.util.Arrays;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(LinkController.class)
@@ -60,7 +61,7 @@ public class LinkControllerTest {
     @Test
     public void testRemoveLink() throws Exception {
         RemoveLinkRequest removeLinkRequest = new RemoveLinkRequest("https://example.com");
-        when(linkService.remove(anyLong(), any(URI.class))).thenReturn(new UserLink());
+        doNothing().when(linkService).remove(anyLong(), any(URI.class));
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/links")
                 .header("Tg-Chat-Id", 123L)

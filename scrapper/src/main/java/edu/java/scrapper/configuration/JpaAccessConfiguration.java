@@ -22,11 +22,10 @@ import org.springframework.context.annotation.Configuration;
 public class JpaAccessConfiguration {
     @Bean
     public LinkService linkService(
-        JpaLinkRepository linkRepository,
         JpaUserLinkRepository userLinkRepository,
         JpaUserRepository userRepository
     ) {
-        return new JpaLinkService(linkRepository, userLinkRepository, userRepository);
+        return new JpaLinkService(userLinkRepository, userRepository);
     }
 
     @Bean
