@@ -1,5 +1,7 @@
 package edu.java.scrapper.configuration;
 
+
+import edu.java.scrapper.emums.AccessType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.Duration;
@@ -16,9 +18,9 @@ public record ApplicationConfig(
     @NotBlank
     String githubBaseUrl,
     @NotBlank
-    String stackOverflowBaseUrl
-
-
+    String stackOverflowBaseUrl,
+    @NotNull
+    AccessType databaseAccessType
 
 ) {
     @Override public String githubBaseUrl() {

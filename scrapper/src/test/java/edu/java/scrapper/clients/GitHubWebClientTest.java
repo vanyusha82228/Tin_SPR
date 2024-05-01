@@ -5,6 +5,7 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 
 import edu.java.scrapper.configuration.ApplicationConfig;
 import edu.java.scrapper.dto.clintsDto.GitHubRepositoryDTO;
+import edu.java.scrapper.emums.AccessType;
 import edu.java.scrapper.github.GitHubWebClient;
 import org.junit.jupiter.api.*;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -32,7 +33,7 @@ public class GitHubWebClientTest {
         ApplicationConfig applicationConfig = new ApplicationConfig(
             new ApplicationConfig.Scheduler(true, Duration.ofSeconds(5), Duration.ofSeconds(5)),
             baseUrl,
-            ""
+            "", AccessType.JPA
         );
         gitHubWebClient = new GitHubWebClient(WebClient.builder(), applicationConfig);
     }

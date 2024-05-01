@@ -1,6 +1,7 @@
 package edu.java.scrapper.domain.repository;
 
 import edu.java.scrapper.domain.model.Link;
+import edu.java.scrapper.domain.model.Resource;
 import java.net.URI;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -15,10 +16,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class LinkRepository implements GenericDao<Link> {
     private final JdbcTemplate jdbcTemplate;
+    private final ResourceRepository resourceRepository;
 
     @Autowired
-    public LinkRepository(JdbcTemplate jdbcTemplate) {
+    public LinkRepository(JdbcTemplate jdbcTemplate, ResourceRepository resourceRepository) {
         this.jdbcTemplate = jdbcTemplate;
+        this.resourceRepository = resourceRepository;
     }
 
     @Override
@@ -45,13 +48,21 @@ public class LinkRepository implements GenericDao<Link> {
     @Override
     public List<Link> findAll() {
         return jdbcTemplate.query(
-            "SELECT id, uri, updated_at, resource_id FROM link",
+            "SELECT l.id, l.uri, l.updated_at, l.resource_id, r.id AS resource_id, r.name AS resource_name "
+                + "FROM link l "
+                + "JOIN resource r ON l.resource_id = r.id",
             (rs, rowNum) -> {
                 Link link = new Link();
                 link.setId(rs.getLong("id"));
                 link.setUri(rs.getString("uri"));
                 link.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime().atOffset(ZoneOffset.UTC));
-                link.setResourceId(rs.getLong("resource_id"));
+
+                Resource resource = new Resource();
+                resource.setId(rs.getLong("resource_id"));
+                resource.setName(rs.getString("resource_name"));
+
+                link.setResourceId(resource);
+
                 return link;
             }
         );
@@ -60,8 +71,9 @@ public class LinkRepository implements GenericDao<Link> {
     public Link findByUrl(URI url) {
         String query = "SELECT url FROM links WHERE url = ?";
         try {
-            return jdbcTemplate.queryForObject(query, new Object[]{url.toString()},
-                new BeanPropertyRowMapper<>(Link.class));
+            return jdbcTemplate.queryForObject(query, new Object[] {url.toString()},
+                new BeanPropertyRowMapper<>(Link.class)
+            );
         } catch (DataAccessException exception) {
             log.info("Failed to retrieve link by URL", exception);
         }

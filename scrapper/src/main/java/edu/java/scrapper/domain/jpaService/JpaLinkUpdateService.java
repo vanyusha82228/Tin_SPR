@@ -1,10 +1,10 @@
-package edu.java.scrapper.domain.jdbc;
+package edu.java.scrapper.domain.jpaService;
 
 import edu.java.bot.client.BotWebClient;
 import edu.java.bot.dto.responseDto.LinkUpdate;
 import edu.java.scrapper.domain.jdbcInterface.LinkUpdater;
+import edu.java.scrapper.domain.jpaRepository.JpaLinkRepository;
 import edu.java.scrapper.domain.model.Link;
-import edu.java.scrapper.domain.repository.LinkRepository;
 import edu.java.scrapper.dto.clintsDto.GitHubRepositoryDTO;
 import edu.java.scrapper.dto.clintsDto.StackOverflowQuestionDTO;
 import edu.java.scrapper.dto.clintsDto.StackOverflowResponseDTO;
@@ -17,7 +17,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Log4j2
-public class JdbcLinkUpdateService implements LinkUpdater {
+public class JpaLinkUpdateService implements LinkUpdater {
     private final static int INTERVAL = 10;
     private static final int GITHUB_PARTS_COUNT = 5;
     private final static int GITHUB_OWNER_INDEX = 3;
@@ -27,14 +27,14 @@ public class JdbcLinkUpdateService implements LinkUpdater {
     private final static int STACKOVERFLOW_QUESTION_ID_INDEX = 4;
     private final GitHubWebClient gitHubWebClient;
     private final StackOverflowWebClient stackOverflowWebClient;
-    private final LinkRepository linkRepository;
+    private final JpaLinkRepository linkRepository;
     private final BotWebClient botWebClient;
 
     @Autowired
-    public JdbcLinkUpdateService(
+    public JpaLinkUpdateService(
         GitHubWebClient gitHubWebClient,
         StackOverflowWebClient stackOverflowWebClient,
-        LinkRepository linkRepository,
+        JpaLinkRepository linkRepository,
         BotWebClient botWebClient
     ) {
         this.gitHubWebClient = gitHubWebClient;
@@ -123,5 +123,4 @@ public class JdbcLinkUpdateService implements LinkUpdater {
         linkUpdate.setDescription(message);
         botWebClient.sendUpdate(linkUpdate).subscribe(); // Отправляем уведомление в bot
     }
-
 }

@@ -1,6 +1,6 @@
 package edu.java.scrapper.controllers;
 
-import edu.java.scrapper.domain.jdbc.JdbcLinkService;
+import edu.java.scrapper.domain.jdbcInterface.LinkService;
 import edu.java.scrapper.domain.model.UserLink;
 import edu.java.scrapper.dto.request.AddLinkRequest;
 import edu.java.scrapper.dto.request.RemoveLinkRequest;
@@ -22,10 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LinkController {
-    private final JdbcLinkService linkService;
+    private final LinkService linkService;
 
     @Autowired
-    public LinkController(JdbcLinkService linkService) {
+    public LinkController(LinkService linkService) {
         this.linkService = linkService;
     }
 
@@ -35,7 +35,7 @@ public class LinkController {
         List<LinkResponse> linkResponses = links.stream()
             .map(link -> {
                 String userId = link.getUserId() != null ? link.getUserId().toString() : "null";
-                return new LinkResponse(link.getLinkId(), userId);
+                return new LinkResponse(link.getLinkId().getId(), userId);
             })
             .collect(Collectors.toList());
         ListLinksResponse response = new ListLinksResponse(linkResponses, linkResponses.size());
@@ -49,10 +49,10 @@ public class LinkController {
     ) {
         URI url = URI.create(request.getLink());
         UserLink addedLink = linkService.add(chatId, url);
-        if (addedLink == null) {
+        if (addedLink == null || addedLink.getLinkId() == null) {
             return ResponseEntity.notFound().build();
         }
-        LinkResponse response = new LinkResponse(addedLink.getLinkId(), request.getLink());
+        LinkResponse response = new LinkResponse(addedLink.getLinkId().getId(), request.getLink());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -62,11 +62,7 @@ public class LinkController {
         @RequestBody RemoveLinkRequest request
     ) {
         URI url = URI.create(request.getLink());
-        UserLink removedLink = linkService.remove(chatId, url);
-        if (removedLink == null) {
-            return ResponseEntity.notFound().build();
-        }
-        LinkResponse response = new LinkResponse(removedLink.getLinkId(), request.getLink());
-        return ResponseEntity.ok(response);
+        linkService.remove(chatId, url);
+        return ResponseEntity.ok().build();
     }
 }

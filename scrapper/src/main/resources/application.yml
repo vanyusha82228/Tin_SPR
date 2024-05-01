@@ -1,4 +1,5 @@
 app:
+  database-access-type: jpa
   scheduler:
     enable: true
     interval: 10s
