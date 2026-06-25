@@ -3,29 +3,31 @@ package edu.java.bot.commandstest;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.model.User;
+import edu.java.bot.client.ScrapperClient;
 import edu.java.bot.command.ListCommand;
-import edu.java.bot.interfaceForProject.UserRepository;
+import edu.java.bot.dto.responseDto.LinkResponse;
+import edu.java.bot.dto.responseDto.ListLinksResponse;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.ArrayList;
-import java.util.List;
+import reactor.core.publisher.Mono;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class ListCommandTest {
     private ListCommand listCommand;
-    private UserRepository userRepository;
+    private ScrapperClient scrapperClient;
 
     @BeforeEach
     public void setUp() {
-        userRepository = mock(UserRepository.class);
-        listCommand = new ListCommand(userRepository);
+        scrapperClient = mock(ScrapperClient.class);
+        listCommand = new ListCommand(scrapperClient);
     }
 
     @Test
-    public void testCommand(){
+    public void testCommand() {
         assertEquals("/list", listCommand.command());
     }
 
@@ -36,46 +38,32 @@ public class ListCommandTest {
 
     @Test
     public void testHandle() {
-        // Подготовка данных в макете репозитория
-        List<String> trackedLinks = new ArrayList<>();
-        trackedLinks.add("https://example.com/link1");
-        trackedLinks.add("https://example.com/link2");
-        when(userRepository.listLinkByUserId(12345L)).thenReturn(trackedLinks);
+        Update update = updateWithChat("/list", 12345L);
+        List<LinkResponse> links = List.of(
+            new LinkResponse(1L, "https://example.com/link1"),
+            new LinkResponse(2L, "https://example.com/link2")
+        );
+        when(scrapperClient.listLinks(12345L)).thenReturn(Mono.just(new ListLinksResponse(links, links.size())));
 
-        // Создание макетов для Update, Message и Chat
-        Update mockUpdate = mock(Update.class);
-        Message mockMessage = mock(Message.class);
-        User mockUser = mock(User.class);
-        Chat mockChat = mock(Chat.class);
+        listCommand.handle(update);
 
-        // Настройка поведения макетов
-        when(mockUpdate.message()).thenReturn(mockMessage);
-        when(mockMessage.from()).thenReturn(mockUser);
-        when(mockUser.id()).thenReturn(123L); // Возвращаем идентификатор пользователя
-        when(mockMessage.text()).thenReturn("/list");
-        when(mockMessage.chat()).thenReturn(mockChat); // мокируем chat
-        when(mockChat.id()).thenReturn(12345L); // возвращаем идентификатор чата
-
-        // Обработка команды /list
-        listCommand.handle(mockUpdate);
-
-        // Проверка, что количество ссылок в репозитории соответствует ожидаемому
-        assertEquals(trackedLinks.size(), userRepository.listLinkByUserId(12345L).size());
+        verify(scrapperClient).listLinks(12345L);
     }
 
     @Test
     public void testSupports() {
-        // Mock объекты
-        Update mockUpdate = mock(Update.class);
-        Message mockMessage = mock(Message.class);
+        assertEquals(true, listCommand.supports(updateWithChat("/list", 12345L)));
+    }
 
-        // Настройка поведения макетов
-        when(mockUpdate.message()).thenReturn(mockMessage);
-        when(mockMessage.text()).thenReturn("/list");
+    private Update updateWithChat(String text, long chatId) {
+        Update update = mock(Update.class);
+        Message message = mock(Message.class);
+        Chat chat = mock(Chat.class);
 
-        // Проверка поддержки команды /list
-        boolean supportsCommand = listCommand.supports(mockUpdate);
-
-        assertEquals(true, supportsCommand);
+        when(update.message()).thenReturn(message);
+        when(message.text()).thenReturn(text);
+        when(message.chat()).thenReturn(chat);
+        when(chat.id()).thenReturn(chatId);
+        return update;
     }
 }

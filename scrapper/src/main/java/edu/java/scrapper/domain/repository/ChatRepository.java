@@ -7,7 +7,6 @@ import java.util.List;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -52,9 +51,9 @@ public class ChatRepository implements GenericDao<Chat> {
     }
 
     public Chat findById(long tgChatId) {
-        String query = String.format("select * from chat where id = %d", tgChatId);
+        String query = "SELECT id, created_at FROM chat WHERE id = ?";
         try {
-            return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(Chat.class));
+            return jdbcTemplate.queryForObject(query, (rs, rowNum) -> mapToChat(rs), tgChatId);
         } catch (DataAccessException exception) {
             log.info(exception.getMessage());
         }

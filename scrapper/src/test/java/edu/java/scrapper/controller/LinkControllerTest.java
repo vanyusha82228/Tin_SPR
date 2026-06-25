@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.java.scrapper.controllers.LinkController;
 import edu.java.scrapper.domain.jdbc.JdbcLinkService;
-import edu.java.scrapper.domain.model.UserLink;
+import edu.java.scrapper.domain.model.Link;
 import edu.java.scrapper.dto.request.AddLinkRequest;
 import edu.java.scrapper.dto.request.RemoveLinkRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.net.URI;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.any;
@@ -41,10 +40,19 @@ public class LinkControllerTest {
 
     @BeforeEach
     void setup() {
-        // Mocking behavior of linkService
-        when(linkService.listAll(anyLong())).thenReturn(Arrays.asList(new UserLink(), new UserLink()));
-        when(linkService.add(anyLong(), any(URI.class))).thenReturn(new UserLink());
-        when(linkService.remove(anyLong(), any(URI.class))).thenReturn(new UserLink());
+        Link firstLink = new Link();
+        firstLink.setId(1L);
+        firstLink.setUri("https://example.com/1");
+        Link secondLink = new Link();
+        secondLink.setId(2L);
+        secondLink.setUri("https://example.com/2");
+        Link changedLink = new Link();
+        changedLink.setId(3L);
+        changedLink.setUri("https://example.com");
+
+        when(linkService.listAll(anyLong())).thenReturn(Arrays.asList(firstLink, secondLink));
+        when(linkService.add(anyLong(), any(URI.class))).thenReturn(changedLink);
+        when(linkService.remove(anyLong(), any(URI.class))).thenReturn(changedLink);
     }
 
     @Test

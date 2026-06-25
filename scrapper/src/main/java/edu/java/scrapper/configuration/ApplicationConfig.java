@@ -16,7 +16,9 @@ public record ApplicationConfig(
     @NotBlank
     String githubBaseUrl,
     @NotBlank
-    String stackOverflowBaseUrl
+    String stackOverflowBaseUrl,
+    @NotBlank
+    String botBaseUrl
 
 
 
@@ -27,6 +29,10 @@ public record ApplicationConfig(
 
     @Override public String stackOverflowBaseUrl() {
         return stackOverflowBaseUrl;
+    }
+
+    @Override public String botBaseUrl() {
+        return botBaseUrl;
     }
 
     public record Scheduler(boolean enable, @NotNull Duration interval, @NotNull Duration forceCheckDelay) {

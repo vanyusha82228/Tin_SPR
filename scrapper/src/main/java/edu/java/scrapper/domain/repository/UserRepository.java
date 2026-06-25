@@ -6,7 +6,6 @@ import java.util.List;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -26,7 +25,7 @@ public class UserRepository implements GenericDao<User> {
         try {
             jdbcTemplate.update(
                 """
-                INSERT INTO user (telegram_id, username, chat_id)
+                INSERT INTO "user" (telegram_id, username, chat_id)
                 VALUES (?, ?, ?)
                 """,
                 user.getTelegramId(), user.getUsername(), user.getChatId()
@@ -40,7 +39,7 @@ public class UserRepository implements GenericDao<User> {
     public void remove(Long id) {
         try {
             jdbcTemplate.update(
-                "DELETE FROM user WHERE id = ?",
+                "DELETE FROM \"user\" WHERE id = ?",
                 id
             );
         } catch (DataAccessException e) {
@@ -54,16 +53,9 @@ public class UserRepository implements GenericDao<User> {
             return jdbcTemplate.query(
                 """
                 SELECT id, telegram_id, username, chat_id
-                FROM user
+                FROM "user"
                 """,
-                (rs, rowNum) -> {
-                    User user = new User();
-                    user.setId(rs.getLong("id"));
-                    user.setTelegramId(rs.getLong("telegram_id"));
-                    user.setUsername(rs.getString("username"));
-                    user.setChatId(rs.getLong("chat_id"));
-                    return user;
-                }
+                (rs, rowNum) -> mapToUser(rs)
             );
         } catch (DataAccessException e) {
             log.error(FAILED_TO_RETRIEVE_USERS, e);
@@ -73,17 +65,40 @@ public class UserRepository implements GenericDao<User> {
 
     public User findUserByChatId(long chatId) {
         String query = """
-                SELECT id, telegram_id, username, chat_id
-                FROM user
-                JOIN chat ON "user".chat_id = chat.id
-                WHERE chat.id = %d
-                """.formatted(chatId);
+                SELECT u.id, u.telegram_id, u.username, u.chat_id
+                FROM "user" u
+                WHERE u.chat_id = ?
+                """;
         try {
-            return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(User.class));
+            return jdbcTemplate.queryForObject(query, (rs, rowNum) -> mapToUser(rs), chatId);
         } catch (DataAccessException e) {
             log.error(FAILED_TO_RETRIEVE_USERS, e);
         }
 
         return null;
+    }
+
+    public void removeByChatId(long chatId) {
+        try {
+            jdbcTemplate.update(
+                """
+                DELETE FROM user_link
+                WHERE user_id IN (SELECT id FROM "user" WHERE chat_id = ?)
+                """,
+                chatId
+            );
+            jdbcTemplate.update("DELETE FROM \"user\" WHERE chat_id = ?", chatId);
+        } catch (DataAccessException e) {
+            log.error(e);
+        }
+    }
+
+    private User mapToUser(java.sql.ResultSet rs) throws java.sql.SQLException {
+        User user = new User();
+        user.setId(rs.getLong("id"));
+        user.setTelegramId(rs.getLong("telegram_id"));
+        user.setUsername(rs.getString("username"));
+        user.setChatId(rs.getLong("chat_id"));
+        return user;
     }
 }

@@ -2,11 +2,9 @@ package edu.java.bot.client;
 
 import edu.java.bot.dto.responseDto.LinkUpdate;
 import java.net.URI;
-import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-@Component
 public class BotWebClient {
     private final WebClient webClient;
 

@@ -2,17 +2,21 @@ package edu.java.bot.command;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
+import edu.java.bot.client.ScrapperClient;
+import edu.java.bot.dto.responseDto.LinkResponse;
+import edu.java.bot.dto.responseDto.ListLinksResponse;
 import edu.java.bot.interfaceForProject.Command;
-import edu.java.bot.interfaceForProject.UserRepository;
+import java.util.List;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import static edu.java.bot.servicebot.SendMessageInChat.sendMessageInChat;
 
 @Component
 public class ListCommand implements Command {
-    private final UserRepository userRepository;
+    private final ScrapperClient scrapperClient;
 
-    public ListCommand(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public ListCommand(ScrapperClient scrapperClient) {
+        this.scrapperClient = scrapperClient;
     }
 
     @Override
@@ -27,13 +31,24 @@ public class ListCommand implements Command {
 
     @Override
     public SendMessage handle(Update update) {
-        Long userId = update.message().from().id();
-        StringBuilder builder = new StringBuilder();
-        builder.append("Список отслеживаемых ссылок:\n");
-        for (String link : userRepository.listLinkByUserId(userId)) {
-            builder.append(link).append("\n");
+        Long chatId = update.message().chat().id();
+        try {
+            ListLinksResponse response = scrapperClient.listLinks(chatId).block();
+            List<LinkResponse> links = response == null ? List.of() : response.getLinks();
+            if (links == null || links.isEmpty()) {
+                return sendMessageInChat(update, "Список отслеживаемых ссылок пуст.");
+            }
+
+            StringBuilder builder = new StringBuilder("Список отслеживаемых ссылок:\n");
+            for (LinkResponse link : links) {
+                builder.append(link.getUri()).append("\n");
+            }
+            return sendMessageInChat(update, builder.toString());
+        } catch (WebClientResponseException.NotFound exception) {
+            return sendMessageInChat(update, "Сначала зарегистрируйтесь командой /start.");
+        } catch (RuntimeException exception) {
+            return sendMessageInChat(update, "Не удалось получить список ссылок. Попробуйте позже.");
         }
-        return sendMessageInChat(update, builder.toString());
     }
 
     @Override

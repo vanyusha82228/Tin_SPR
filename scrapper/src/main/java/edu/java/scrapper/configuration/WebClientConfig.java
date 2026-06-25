@@ -10,23 +10,18 @@ import org.springframework.context.annotation.Configuration;
 public class WebClientConfig {
 
     @Bean
-    public URI baseUri(ApplicationConfig applicationConfig) {
+    public ScrapperWebClient scrapperWebClient(ApplicationConfig applicationConfig) {
         String selectedBaseUrl;
         if (!applicationConfig.githubBaseUrl().isBlank()) {
             selectedBaseUrl = applicationConfig.githubBaseUrl();
         } else {
             selectedBaseUrl = applicationConfig.stackOverflowBaseUrl();
         }
-        return URI.create(selectedBaseUrl);
+        return new ScrapperWebClient(URI.create(selectedBaseUrl));
     }
 
     @Bean
-    public ScrapperWebClient scrapperWebClient(URI baseUri) {
-        return new ScrapperWebClient(baseUri);
-    }
-
-    @Bean
-    public BotWebClient botWebClient(URI baseUri) {
-        return new BotWebClient(baseUri);
+    public BotWebClient botWebClient(ApplicationConfig applicationConfig) {
+        return new BotWebClient(URI.create(applicationConfig.botBaseUrl()));
     }
 }

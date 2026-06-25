@@ -39,7 +39,8 @@ public class StackOverflowWebClient2Test {
         ApplicationConfig applicationConfig = new ApplicationConfig(
             new ApplicationConfig.Scheduler(true, Duration.ofSeconds(5), Duration.ofSeconds(5)),
             "",
-            baseUrl
+            baseUrl,
+            "http://localhost:8090"
         );
         stackOverflowWebClient = new StackOverflowWebClient(WebClient.builder(), applicationConfig);
     }

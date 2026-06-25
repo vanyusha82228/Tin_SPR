@@ -32,7 +32,8 @@ public class GitHubWebClient2Test {
         ApplicationConfig applicationConfig = new ApplicationConfig(
             new ApplicationConfig.Scheduler(true, Duration.ofSeconds(5), Duration.ofSeconds(5)),
             baseUrl,
-            ""
+            "",
+            "http://localhost:8090"
         );
         gitHubWebClient = new GitHubWebClient(WebClient.builder(), applicationConfig);
     }
